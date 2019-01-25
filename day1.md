@@ -6,17 +6,17 @@
 |:---|:----|
 |Overview     | Explanation of the structure and content of the course: role of blogs, grading, assessments, assignments, and so on. |
 |Housekeeping | Everyone who has not done so already creates their GitHub, OpenStreetMap, and Wikipedia accounts **in class**, and that they update the  Etherpads: |
-|    | * https://pad.riseup.net/p/hccsossds19 |
-|    | * https://pad.riseup.net/p/hccsosmaps19 |
-|    | * https://pad.riseup.net/p/hccswikiaccts |
+|    | * [Etherpad for GitHub Names](https://pad.riseup.net/p/hccsossds19) |
+|    | * [Etherpad for OpenStreetMap Names](https://pad.riseup.net/p/hccsosmaps19) |
+|    | * [Etherpad for Wikipedia Names](https://pad.riseup.net/p/hccswikiaccts) |
 |Discussion |  Openness: open data, open hardware, open software, open government, open education. Find examples. Work in teams of a second-termer and a first-termer. |
 |Activity  | Ask the class to identify open source software that is used in our daily lives. |
 |     | * Make a list |
 |     | * Discuss why they think it is open source |
 |Discussion |  What is Open Source all about?  |
 |           |  Play two videos: |
-|    | * https://www.youtube.com/watch?v=7c0IrsDsNaw&feature=youtu.be |
-|    | * https://www.youtube.com/watch?v=9X6HYoTl3K0 |
+|    | * [What is Open Source](https://www.youtube.com/watch?v=7c0IrsDsNaw&feature=youtu.be) |
+|    | * [How to jump start a career in open source](https://www.youtube.com/watch?v=9X6HYoTl3K0) |
 |    | Revisit the question: What is Open Source? |
 
 ---
