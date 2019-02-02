@@ -8,8 +8,6 @@
 |Discussion     | What are the significant points made in Kevin Fleming's talk from the YouTube video: |
 |               |   [Fleming's YouTube video]( https://www.youtube.com/watch?v=n2GhS-u-5FA) |
 |Technical Discussion | "Mentors" will instruct the class on git basics, including the basic commands: init, clone, add, commit, status, and log.    |    
-|Activity       | Exploration of open source repositories. What files must be in a repository? <br> The purpose of a CONTRIBUTING file, LICENSE file, CODE OF CONDUCT file, and README file. |
-|               | Explore selected repositories to compare and evaluate.|
 
 ---
 

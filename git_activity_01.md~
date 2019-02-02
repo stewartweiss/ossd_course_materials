@@ -1,10 +1,5 @@
 # A Git "Hands-on" Activity
 
-Copyright (c) 2019 Stewart Weiss
-The above author acknowledges that this work is a derivative of an activity
-developed by Dr. Joanna Klukowska of the Courant Institute, licensed by her
-under a [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license.
-
 
 ## Introduction
 
@@ -66,7 +61,7 @@ possible.
 
 The instructions are in the table below. Each row of the table is called a "round".
 The rounds should be performed in the order they are listed. The columns correspond to 
-what the specific team members should do in that round. There are four columns, 
+what the specific team mambers should do in that round. There are four columns, 
 one for each team member. To be clear, as an example, the third column, second row
 is what team member 2 does in the second round.
 
@@ -152,7 +147,7 @@ repository. That is the next step.
 <tr>
 <td colspan=5 align=center>
 
-__Resolving merge conflicts__
+__Resolving merge conflincts__
 
 </td>
 </tr>
@@ -205,7 +200,7 @@ this,  in your repository on your local machine, run the command
 
     `git remote add myfork URL_TO_THE_FORK`
 
-    where `URL_TO_THE_FORM` is replaced by the actual URL
+    where `URL_TO_THE_FORM` is replaced by the actual url
 
 - Run the command
 
@@ -219,8 +214,7 @@ the `myfork` remote using the command
     `git push myfork master`
 
 - Look at the files stored in the original repository in the course organization and in
-your private fork; they should be different. Why?  What should have been done to
-prevent this from happening, and what can be done at this point?
+your private fork; they should be different. Why?  
 
 </td>
 
@@ -253,7 +247,7 @@ prevent this from happening, and what can be done at this point?
 
 
 <tr>
-<td> </td>
+<td>4 </td>
 <td colspan=4>
 
 </td>
