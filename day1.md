@@ -21,15 +21,20 @@
 
 ---
 
-### Assignment for January 29
-1. Read
-    * The OSI definition
-    * The FSF Definition
+### Assignment to be completed by January 29
+1. Read about how to set up and use your blog posts by following the instructions 
+   in the link on the course web page [Your Blog Journal](blog_activity.php)  and
+   in the GitHub repository referenced in that page.
+
+2. Read
+    * [The Open Source Initiative's Open Source Definition](https://opensource.org/osd)
+    * [The Free Software Foundation's Free Software Definition](https://www.gnu.org/philosophy/free-sw.html)
 
     and explain in your blog post what the difference is between these two definitions.
-2. Watch
+3. Watch
     * [Fleming's YouTube video]( https://www.youtube.com/watch?v=n2GhS-u-5FA)
-     
-    and comment in your blog about what strikes you the most about Fleming's talk.
+
+    and be prepared to discuss it in class.
+
 
 --------------------------------------------------------------------------------
