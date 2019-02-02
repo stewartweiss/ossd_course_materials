@@ -1,4 +1,5 @@
 Copyright (c) 2019 Stewart Weiss
+
 The above author acknowledges that this work is a derivative of an activity
 developed by Dr. Joanna Klukowska of the Courant Institute, licensed by her
 under a [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license.
