@@ -61,7 +61,7 @@ possible.
 
 The instructions are in the table below. Each row of the table is called a "round".
 The rounds should be performed in the order they are listed. The columns correspond to 
-what the specific team mambers should do in that round. There are four columns, 
+what the specific team members should do in that round. There are four columns, 
 one for each team member. To be clear, as an example, the third column, second row
 is what team member 2 does in the second round.
 
@@ -147,7 +147,7 @@ repository. That is the next step.
 <tr>
 <td colspan=5 align=center>
 
-__Resolving merge conflincts__
+__Resolving merge conflicts__
 
 </td>
 </tr>
@@ -200,7 +200,7 @@ this,  in your repository on your local machine, run the command
 
     `git remote add myfork URL_TO_THE_FORK`
 
-    where `URL_TO_THE_FORM` is replaced by the actual url
+    where `URL_TO_THE_FORM` is replaced by the actual URL
 
 - Run the command
 
@@ -247,7 +247,7 @@ your private fork; they should be different. Why?
 
 
 <tr>
-<td>4 </td>
+<td> </td>
 <td colspan=4>
 
 </td>
