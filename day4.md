@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 
-### Friday, February 1 Open Source Ideas, Version Control, and Online Repositories
+### Tuesday, February 5 Repository Structure and a Git Activity
 
 |                               |        |                              
 |:---|:----|
