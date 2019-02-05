@@ -21,7 +21,7 @@
       You may "skim" the sections on customizing the output of the log in the section on Viewing the Commit History.
 
 3. For mentors only:
-    * Each mentor will prepare a five to ten minute overview of he project that he or she worked on in the fall and what the outcome was, with visuals as needed.
+    * Each mentor will prepare a five to ten minute overview of the project that he or she worked on in the fall and what the outcome was, with visuals as needed.
       The order of presentations will be decided on Tuesday, but one person needs to commit to present on Tuesday.
    
 --------------------------------------------------------------------------------

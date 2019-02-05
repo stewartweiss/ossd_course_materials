@@ -36,7 +36,7 @@ that may arise when collaborating with other people on a shared repository. The
 lessons learned in this exercise will extend to the more complex case of working
 on an external repository not maintained by the team.
 
-## Conversion of English Language Instructions to Git Instructions 
+## What Git Instructions to Use
 
 In the section below named **Detailed Instructions**, the instructions are written 
 in ordinary English. These  instructions correspond to sequences of one or more 
@@ -51,6 +51,7 @@ add it to the staging area and commit it using a descriptive message. If
   git add FILE_NAME
   git commit -m "MESSAGE FOR THE COMMIT"
   ```
+
 - If an instruction  states "push the changes to the remote repository", 
 you should make sure that all of the current changes are committed (see above) 
 and then push those changes using the command
@@ -63,7 +64,7 @@ and then push those changes using the command
 this activity, raise your hand and someone will try to help out as quickly as
 possible.
 
-### Detailed Instructions
+## Detailed Instructions
 
 The instructions are in the table below. Each row of the table is called a "round".
 The rounds should be performed in the order they are listed. The columns correspond to 
@@ -84,9 +85,12 @@ in that round.
 <td>1 </td>
 <td colspan=4>  
 
-Clone the team repository to the local machine using the instruction
+Clone the team repository, named `Team_N-git-activity-01`, where N is your team number,  
+to the local machine using the instruction
 
 `git clone REPO_URL`
+
+substituting the URL of your team's repository for `REPO_URL`.
 
 </td>
 </tr>
