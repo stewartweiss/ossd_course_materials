@@ -14,7 +14,7 @@
 ### Assignment to be completed by Tuesday, February 5
 1. Background Reading:
 
-    * Everyone who has not read it, must read Chapter 2 of [Producing Open Source Software](https://git-scm.com/book/en/v2)
+    * Everyone who has not read it, must read Chapter 2 of [Producing Open Source Software](http://producingoss.com/)
 2. Technical Reading (for those taking the course for the first time):
     * Read the rest of the *Git Basics* chapter in the [Pro Git book](https://git-scm.com/book/en/v2), after the section, *Recording Changes to the Repository*
       and read the beginning of *Git Branching* through the end of *Branching and Merging*. All together these are pages 48 to 69.
