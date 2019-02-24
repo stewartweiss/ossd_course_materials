@@ -28,9 +28,9 @@
      How would you assess the activity level of a project? Can you propose other ways of doing this? Try to back up your ideas with some 
      reasons.
 
-### Background Reading for Tuesday February 26
-  - Those people who have never read it should now read [ The Cathedral and the Bazaar](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/index.html)
-  This is especially important for those who want to embark on a new project with a group of developers.
+#### Background Reading for Tuesday February 26:
+   Those people who have never read it should now read [ The Cathedral and the Bazaar](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/index.html)
+   This is especially important for those who want to embark on a new project with a group of developers.
 
    
 --------------------------------------------------------------------------------
