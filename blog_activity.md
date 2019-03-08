@@ -66,3 +66,17 @@ The blog post for a given week should be based on the following conditions:
   *OpenStreetMap*, *Wikipedia*, or any software project, the post should
    include a list of those contributions.
       
+### A Rubric for Assessment of Blog Posts
+Blog posts are a component of your grade in the course.  I have never found a
+good way to assign a numerical score to narrative writing, like a blog post.
+Nonetheless, these posts must be assessed. Therefore, I am using the following
+*ordinal* scale for assessing the posts. "*Ordinal*" means that it is linear but that
+the numbers have no arithmetic properties other than one being larger or smaller than
+another. A score of 3 is not three times as good as a score of 1.
+
+| Grade | Assessment |
+|---:|:----|
+| 3 | The post is thoughtful, well-written, well-formatted, satisfies the stated objectives for the posts for the given week, and demonstrates a significant amount of effort. |
+| 2 | The post is not particularly thoughtful,  adequately-written, adequately-formatted,  and satisfies the stated objectives for the posts  for the given week, and demonstrates a modest amount of effort. |
+| 1 |  The post satisfies the stated objectives for the posts for the given week, but not much more. There is little thought given to it, and almost no effort. |
+| 0 |  The post was not written. |

@@ -12,7 +12,7 @@
 
 ---
 
-### Assignment to be completed by **Thursday evening, March 8**
+### Assignment to be completed by **Thursday evening, March 7**
 1. If you did not succeed in getting the development environment working in class,
    then do so as your next assignment.
 1. Identify three issues in your project that you think you can fix.
