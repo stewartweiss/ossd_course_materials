@@ -4,13 +4,13 @@
 
 |              |        |                              
 |:---|:----|
-|Overview:     |  A review of license esentials; finishing up the GitHub workflow activity, and class exploration of issues | 
+|Overview:     |  A review of license essentials; finishing up the GitHub workflow activity, and class exploration of issues | 
 |Activities:   |  Those groups that did not finish the GitHub workflow do that first; others can work on their projects until everyone completes the activity. |
 |              |  Summary of open source licenses and  [Tom Callaway's license video](https://www.youtube.com/watch?v=PTYuDrQpyH0). |
-|              |  Brief reports on each project and exploration of potential issues. <br> Common Voice group should download development environm ents if not done already.|
+|              |  Brief reports on each project and exploration of potential issues. <br> Common Voice group should download development environments if not done already.|
 
 
-<hr class=style1>
+--------------------------------------------------------------------------------
 
 ### Assignment to be completed by **Thursday evening, March 28**
 1. It is time to read Chapter 5 of [Pro Git book](https://git-scm.com/book/en/v2), *Distributed Git*.

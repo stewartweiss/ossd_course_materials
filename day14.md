@@ -5,7 +5,7 @@
 |              |        |                              
 |:---|:----|
 |Overview:     |  An assessment on licenses and Mozilla; a lesson about GitHub workflow, and project work | 
-|Activities:   |  The second in-class asessment |
+|Activities:   |  The second in-class assessment |
 |              |  Slide presentation about the GitHub workflow |
 |              |  Finishing the GitHub Workflow activity started last week, working on your group projects, and brief reports on each project. |
 
