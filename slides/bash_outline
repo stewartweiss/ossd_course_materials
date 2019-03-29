@@ -1,0 +1,51 @@
+
+## Environment Variables and the User Environment
+- UNIX keeps track of your actions by saving various items of information about you in specially named variables called environment variables.
+A variable is just like a mathematical variable – it is a symbol that can have a single value at any time. In UNIX, variables are named using ordinary words;  environment variables are usually in all UPPERCASE.
+	The collection of environment variables and their values is called your environment.
+
+Filters:
+sort, grep, sed, awk, cut, paste, head, tail, uniq, split, tr, shuf
+regular expressions
+
+History Mechanism:
+history command
+referring back to previous commands and words on command line
+
+
+Streams, Files, and Redirection 
+Standard input, output, and error
+Input redirection
+Output redirection
+Output appending
+Pipes
+
+Bash programming
+file globs
+variables
+control flow: if, while, for, case
+
+
+
+The most Useful Linux Commands
+Files and directories:
+ls, more, less, cat, file, touch, view, type
+mv, cp, rm, rmdir, mkdir, cd 
+chmod
+find
+
+Misc:
+seq, echo, 
+
+System and User Information
+id
+hostname
+printenv
+last
+groups
+
+
+Process and Job Control
+Backgrounding: bg, fg
+ps, kill, pkill, ^C, ^D, ^S, ^Q
+jobs

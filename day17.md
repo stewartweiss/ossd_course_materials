@@ -1,8 +1,8 @@
 --------------------------------------------------------------------------------
 
-### Day 17. Tuesday, March 26:  Working on Contributions 
+### Day 17. Tuesday, March 26:  Working on Contributions
 
-|              |        |                              
+|              |        |
 |:---|:----|
 |Overview:     | Making Progress on Contributions |
 |Activities:   | Class will work in teams on their projects. Everyone, not just teams, will give a very brief update on what they are doing. |
@@ -21,7 +21,7 @@ Discussion pages, formally called **Talk** pages, but reading about them can wai
 with [Help:Talk](https://en.wikipedia.org/wiki/Help:Talk_pages).
 
 2. Rummage around in Wikipedia looking for pages that you think you might be able to edit. In your weekly blog, write about what you find, or
-what you did not find. In addition,  update your progress on the issues you have isolated in your project.
+what you discovered and what was hard. In addition,  update your progress on the issues you have isolated in your project.
 
-   
+
 --------------------------------------------------------------------------------
