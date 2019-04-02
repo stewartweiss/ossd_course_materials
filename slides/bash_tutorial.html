@@ -24,7 +24,8 @@ Stewart Weiss <br>
 
 
 .license[
-Unless noted otherwise all content is released under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Unless noted otherwise all content is released under a
+ [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 ]
 
 
@@ -192,11 +193,14 @@ particular order.
 
 - File and Directory Processing
     - `ls, more, less, cat, file, view, od, strings, pwd, basename, dirname,`
-`find, diff, cmp,touch, mv, cp, rm, rename, ln, cd , chmod, rmdir, mkdir`
+`find, diff, cmp, touch, mv, cp, rm, rename, ln, cd , chmod, rmdir, mkdir`
 
-- Filters
-    -  `awk, cut, grep, head, paste, perl, sed, shuf, sort, split,  tail, tr, uniq, wc`
+- Filters*
+    -  `awk, cat, cut, grep, head, less, more, od, paste, sed, shuf, sort, split, tac, tail, tr, uniq, wc`
 
+.footnote[
+* Some filters are listed above as well.
+]
 - System and User Information
     - `date, domainname, du, groups, hostname, id, last, printenv, users, times, who`
 
@@ -512,61 +516,624 @@ if you make a mistake):
 
 # Streams, Files, and Redirection
 
-- Unix provides every running process with three __streams__:
-    - __standard input__, __standard output__, and __standard error__
-
 - A __stream__ is a flow of bytes into or out of a running process. In Unix, a stream is
 implemented with a data structure that includes buffers to store the bytes and
 various data members to control its flow and keep track of the status of the
 stream.
 
+- Unix provides every running process with three __standard streams__:
+    - __standard input__, __standard output__, and __standard error__
+
+
+
+
 <img src="img/stdinout.GIF" width="300" style="float:right;" >
 
 
-- Streams can be connected to devices or files or other processes, as youi will
+- Streams can be connected to devices or files or other processes, as you will
 see shortly.
 
-- When a process is created, by default its input comes from the keyboard
-(terminal device), and the standard output and error go to the terminal device.
+- When a process is created, it is given an array that has pointers to its
+open files;  pointers to these three streams occupy the first three array
+entries, namely standard input is index 0, standard output 1, and standard
+error 2.
+
+- Initially, standard input is connected to the keyboard
+(terminal device), and  standard output and error, the terminal device*.
+
+.footnote[
+* The terminal window is called a pseudo-terminal in Unix.
+]
+
+
+---
+# File Descriptors and Streams
+
+- The index values in the array of open files belonging to the process
+are called __file descriptors__. The table below summarizes the different
+views of the standard streams.
+
+File<br> Descriptor | Stream | Associated Device |  C symbolic name
+:---|:---|:---|:---
+ 0      | Standard Input | Keyboard |stdin
+ 1      | Standard Output | Screen or Terminal Window | stdout
+ 2      | Standard Error | Screen or Terminal Window |stderr
 
 
 ---
 # Redirection
+### Input Redirection
 
-- All shells allow for  any of its streams to be connected to or from files
+- All shells allow for  any stream to be disconnected from its
+default device and reconnected to or from files,
 the streams of other processes, or other devices. This is called
 __I/O redirection__.
 
 - Attaching a file to the standard input is called __input redirection__.
-- Syntax:
+The `<` operator is the __input redirection operator__:
+
    ```bash
     command < file
    ```
+Example:
+   ```bash
+    cat < file1
+   ```
+The contents of file1 are redirected to the standard  input of the `cat` command,
+which is not very useful, but illustrates the idea.
+
+---
+# Redirection
+### Input Redirection
+
+The `bc` command can be used as a simple calculator. If you type `bc` on the command line,
+it waits for you to enter  an arithmetic expression such as 25 + 4 or
+something more complex. When you type <enter> it evaluates and prints the
+expression.
+
+6 + 4
+--
+<br>
+10
+--
+<br>
+12 ^ 2
+--
+<br>
+144
+
 --
 
+Suppose `file1`  contains the sequence of arithmetic expressions
+   ```bash
+    6 + 4
+    12 ^ 2
+   ```
+--
+Run the command `bc < file1` at the command prompt:
+   ```bash
+    $ bc < file1
+    10
+    144
+   ```
+This shows that file1 replaced `bc`'s standard input.
+---
+# Redirection
+### Output Redirection
+
 - Attaching a file to the standard output is called __output redirection__.
-- Syntax:
+The `>` operator is the __output redirection operator__:
    ```bash
     command > file
    ```
+Example
+   ```bash
+    cat file1 file2 file3  > combined_file
+   ```
+concatenates files `file1`, `file2`, and `file3` into a new file named `combined_file`.
+
+ If `combined_file` already existed and the `bash` variable `noclobber` is set,
+ the command fails and you will see an error message such as
+   ```bash
+    bash: combined_file: cannot overwrite existing file
+   ```
 --
 
-- Attaching the standard output of one command to the standard input of another
-is done by creating a __pipe.
-- Syntax:
+ To overcome this, use the `>|` operator, which will forcibly replace the existing file:
+
    ```bash
-    command1 | command2
+    cat file1 file2 file3  >| combined_file
+   ```
+---
+# Redirection
+### Error Redirection
+
+- Attaching a file to the standard error is called __error redirection__.
+The `>` operator is also used to redirect standard error, but with a slight
+modification; use
+   ```bash
+    command 2> file
+       ```
+__No space__ between `2` and `>`.  `2` is the file descriptor for
+the standard error stream. In general, if _n_ is a file descriptor, _n_`>` redirects
+ the stream associated with it to the file.
+
+--
+
+- To send the errors of a command to one file and the standard output to another,
+the simplest solution (there are a few ways to do this) is:
+   ```bash
+    command 2> error_file  > output_file
+   ```
+ If either file exists and `noclobber` is set, it will fail;
+to overwrite them use
+   ```bash
+    command 2>| error_file  >| output_file
+   ```
+
+- To redirect the standard output and the standard error to the __same__ file,
+use
+   ```bash
+    command &> file
    ```
 
 
 ---
+# Redirection
+###  Redirection Examples
+
+- Some commands can produce many error messages. Sometimes you don't care about
+the errors. If you try to display the _entire file system_ (bad idea) using `ls -R`
+there will be many `permission denied` errors. The way to discard them is like
+this:
+
+   ```bash
+    ls -R /  2>/dev/null  > verybigfile
+   ```
+__Lesson__: `/dev/null` is a black hole; any data written to it is discarded.
+
+- We can take advantage of the fact that __the `cat` command reads from standard
+input if it is not given a filename as an argument__, to create a plain text file
+while taking notes, like this:
+   ```bash
+    $ cat > notes
+    blah blah blah
+    ^D (Control D to stop)
+    $ cat notes
+    blah blah blah
+   ```
+ We must type Control-D  to terminate the
+`cat` command and close the new file named notes.
 
 ---
-# Filters
-- to be filled in...
+# Redirection
+### Appending
+
+- To append to a file (or to create it if it does not exist) use the
+`append redirection operator` `>>`.
+
+   ```bash
+    command >> file
+   ```
+ which adds the output of the command to the end of the file.
+
+- Sometimes you will find it useful to log the results of a command that you
+run, or perhaps log its errors. Suppose `backup` is some backup command that you run
+every day. You can do either:
+   ```bash
+    backup 2>> ~/.backup_errlog  >> ~/.backuplog
+   ```
+which sends the errors of the command to one log file and the standard output to
+another.
+---
+# Pipes
+
+- Attaching the standard output of one command to the standard input of another
+is done by creating a __pipe__.
+The `|` operator is the __pipe operator__.
+    - Syntax:
+       ```bash
+        command1 | command2
+       ```
+
+- The real power of pipes is that they can be used with __filters__. Examples of
+pipes will follow the introduction of filters.
 
 
 ---
+# Filter Introduction
+
+- A filter is a UNIX command whose input and output are plain text,
+and that expects its input from standard input and puts its output
+on standard output.
+
+- Most filters will also read their input from one or more filenames listed
+on their command-line.
+
+- Filters are useful because their output is a transformation of their
+input, in one way or another, such as by sorting it, removing words or lines
+based on a pattern or on their position in the line or file.
+
+- Filters are chained together with multiple pipes to do become the workhorses of
+Unix systems.
+
+---
+# Filter Synopsis
+
+Filter | Description
+:--- |:---
+`awk`  |  pattern scanning and processing language
+`cat`  |  concatenate files and print on the standard output
+`cut`  |  remove sections from each line of files
+`fold`  |  wrap each input line to fit in specified width
+`grep, egrep, fgrep`  |  print lines matching a pattern
+`head`  |  output the first part of files
+`less`  |  does more than `more`; see `more` below.
+`more`  |  file perusal filter for crt viewing
+`od`  |  dump files in octal and other formats
+`paste`  |  merge lines of files
+`sed`  |  stream editor for filtering and transforming text
+`shuf`  |  generate random permutations
+`sort`  |  sort lines of text files
+`split`  |  split a file into pieces
+`tac`   |  concatenate and print in reverse order
+`tail`  |  output the last part of files
+`tr`  |  translate or delete characters
+`uniq`  |  report or omit repeated lines
+`wc`  |  print newline, word, and byte counts for each file
+
+---
+# Filters: `cat` and  `tac`
+
+- The `cat` command is a technically a filter, but without options it does
+no transformation: its output is exactly its input.
+
+- It does have some handy uses. The `-n` option numbers lines, `-b` numbers
+non-blank lines, `-s` _squeezes_ blank lines, and `-v` shows non-printing characters:
+
+   ```bash
+    ls  . | cat -n
+     1	bash_tutorial_01.html
+     2	css/
+     3	img/
+     4	js/
+   ```
+ lists the current directory and numbers the lines.
+
+- `tac` prints the lines in reverse order. I rarely have use for it.
+
+   ```bash
+    ls  . | cat -n | tac
+     4	js/
+     3	img/
+     2	css/
+     1	bash_tutorial_01.html
+   ```
+---
+# Filters: `head` and `tail`
+- Simply put, `head` displays the first _N_ lines of its input and `tail`, the last
+_N_ lines. By default for both,  _N_ is 10. To print a different number of lines,
+explicity use `-N` where _N_ is a positive integer:
+
+   ```bash
+    head -1 myfile
+   ```
+ displays just the first line of `myfile`, and
+
+   ```bash
+    tail -1 myfile
+   ```
+ displays the last line.
+--
+
+- One way to print the _nth_ line of a file is like
+this:
+   ```bash
+    head -4 myfile | tail -1
+   ```
+ which prints the 4th line of `myfile`. So I can use the following pipeline to
+get the summary of any command from the man page for it:
+
+   ```bash
+    man awk | head -4 | tail -1
+   ```
+ since the summary is always line 4.
+---
+# Filters: `sort`
+- `sort` is one of the most useful and easy to use filters:
+
+   ```bash
+    sort myfile
+   ```
+ will sort the text file named `myfile` and print it on standard output.
+
+--
+
+- But its exact behavior varies from one system to another; there are many
+different implementations of `sort`.
+
+--
+
+- By default it uses the current `locale` settings
+(the _collating order_ set in your environment*).
+The major difference in English is whether uppercase precedes lowercase
+or whether case is ignored.
+
+- Locales are a subject way ahead of us. Suffice it to say that locale
+environment variables control how information is displayed in the
+terminal, such as the language and character set, numbers, dates, times, and more.
+
+.footnote[
+* The collating order is the order of the characters in the
+character code of the terminal, which is usually ASCII or UTF-8.
+]
+
+---
+# Filters: `sort` Examples
+
+- Assume `myfile` contains the lines
+   ```bash
+     a
+     b
+     A
+     B
+   ```
+ Forcing the locale to be U.S. English and running `sort`:
+   ```bash
+    LC_COLLATE="en_US.UTF-8"  sort myfile
+    a
+    A
+    b
+    B
+   ```
+ Forcing the locale to be the "C" locale  and running `sort`:
+   ```bash
+    LC_COLLATE=C  sort myfile
+    A
+    B
+    a
+    b
+   ```
+---
+# Filters: `sort` Examples
+
+- To force `sort` to ignore case and fold upper and lower case together, using
+GNU's `sort`, the option is `-f`:
+   ```bash
+    LC_COLLATE=C  -f sort myfile
+    a
+    A
+    b
+    B
+   ```
+
+- `sort` by default will treat numbers like strings. For example, it will sort
+1, 2, 10, 20 in this order:  1, 10, 2, 20.
+
+- To tell `sort` to sort __numerically__, use `-n`.
+
+- To tell `sort` to __reverse__ its order, use `-r`.
+
+- To tell `sort` to delete duplicate lines on output, use `-u`.
+
+- `sort` can sort by __fields__ in a line. The GNU version uses the `-k` option
+to specify the specific _key_ position (1-based). The `-t` option tells `sort`
+what character keys in the line. By default `sort` uses whitespace. If a file
+has colon-separated fields, and you want to sort numerically by field 2, use
+   ```bash
+      sort -t':' -k2 -n   myfile
+   ```
+---
+
+# Filters: `grep`, `egrep`, and `fgrep`
+
+- These commmands are the most powerful of all.
+`grep` and `egrep` are given a pattern, called a __regular expression__, and
+use this to filter lines that match the pattern.
+`fgrep` is a _fast_, fixed-string version that does not use patterns.
+
+- Regular expressions are complex;  mastering them is worth the effort because
+they are used by `vi`, `sed`, `ed`, `awk`, `grep`, and `egrep`.
+
+- Some  examples to start:
+   ```bash
+    grep '\<cout\>'  prog.cpp
+   ```
+--
+ prints all lines containing the exact word `cout` in file `prog.cpp`.
+
+--
+   ```bash
+    grep -c '^ *$' prog.cpp
+   ```
+--
+ prints a count of the number of lines in `prog.cpp` that contain only blanks or
+no characters at all.
+
+--
+   ```bash
+    grep  '\/\*.*\*\/' prog.cpp
+   ```
+--
+ prints all lines in `prog.cpp` that have C-style comments `/* ... */`.
+
+__Lesson__: Enclose the pattern in single quotes  to
+ prevent the shell from interfering.
+
+---
+# Regular Expression Rules
+- In the rules that follow, `\0` denotes an empty string.
+- The complete set of rules can be found in the __regex__ man page in
+section 7, which defines the POSIX-compliant regular expressions.
+
+- Any sequence of characters matches itself: __abc__ matches the string "abc".
+
+
+- A regular expression followed by \* matches the concatenation of 0 or more
+strings each of which is matched by the regular expression. \* is called the
+__closure__ operator.
+    -  __`a*`__ matches 0 or more `a`'s:
+       - `\0`, `a`, `aa`, `aaa`, ...
+
+    -  __`ab*`__ matches `a` followed by 0 or more `b`'s:
+       -  `a`, `ab`, `abb`, `abbb`, ...
+
+    -  __`ab*ac*`__ matches `a` followed by 0 or more `b`'s followed by `a` followed
+ by 0 or more `c`'s:
+       -  `aa`, `aba`, `aac`, `abba`, `abac`, `aacc`, `abbba`, `abbac`, ...
+
+
+---
+# Regular Expression Rules
+
+- Use __`\( \)`__  to group for applying \* to more than one character:
+    - __`\(ab\)*`__ matches 0 or more `ab`'s:
+        - `\0`, `ab`, `abab`, `ababab`, ...
+
+- If you use __extended regular expressions__ either by writing  `grep -E`
+or by using  `egrep` instead, you can use `+`, the __positive closure__ operator.
+It matches __1 or more__ strings each of which is matched by the preceding
+regular expression. You can also use ordinary parentheses for grouping:
+   ```bash
+      egrep '(ab)+' myfile
+      grep -E  '(ab)+' myfile
+   ```
+ both match all lines in `myfile` that have 1 or more consecutive `ab` substrings.
+
+- Warning:
+   ```bash
+      grep '(ab)*' myfile
+   ```
+ only matches `\0`, `(ab)`, `(ab)(ab)`, ...
+because `grep` was used instead of `egrep`.
+
+---
+# Regular Expression Rules
+### Character Classes
+
+- The period __`.`__ matches any single character.
+
+
+ ` ` | ` `
+:--- |:---
+__`[list-of-characters]`__ | matches any single character in the list.
+__`[a6j&]`__       | matches a, 6, j, or &
+__`[0-9]`__        |  matches any single digit
+__`[a-zA-Z0-9]`__  |  matches any letter or digit
+__`[]]`__      |  matches right square bracket `]`
+__`[0-9-]`__    |matches any single digit or hyphen
+__`[-0-9]`__     | matches any single digit or hyphen
+__`[_a-zA-Z0-9]`__ | matches any letter, digit or underscore.
+
+
+- __`\w`__ is a shorthand for __`[_a-zA-Z0-9]`__. These characters are called
+__word characters__.
+
+- The `^` inside brackets means the complement:
+
+
+ ` ` | ` `
+:--- |:---
+__`[^a6j&]`__  | matches anything except a, 6, j, and  &
+__`[^0-9]`__   | matches anything except a digit.
+
+
+---
+# Regular Expression Rules
+### Character Classes
+
+- You can combine character classes with the * operator to create useful patterns:
+
+
+ ` ` | ` `
+:--- |:---
+__`\(c[acgt]g\)*`__ | matches 0 or more sequences of `cag`, `ccg`, `cgg`,or `ctg`
+__`[1-9][0-9]*`__   | matches any decimal numeral except 0
+__`[A-Z][a-z]*`__   | matches words that start with an uppercase letter.
+__`[a-zA-Z_][_a-zA-Z0-9]*`__   | matches C/C++ identifiers.
+
+__`\(...\)*`__      | matches any string whose length is a multiple of 3.
+
+
+---
+# Regular Expression Rules
+### Anchors
+
+- The caret __`^`__ anchors a regex to the beginning of a line,
+and the dollar sign, __`$`__, anchors it to the end of the line.
+
+- __`\<`__ anchors a regex to the start of a word. This means that  the character
+before it must be a non-word character.
+
+- __`/>`__ anchors the regex to the
+end of a word. This means that the character after it is a non-word character.
+
+
+ ` ` | ` `
+:--- |:---
+__`^drwx`__   | matches lines whose first 4 characters are drwx
+__`^\w`__     | matches lines that begins with a letter or digit or underscore
+__`abcd$`__   | matches lines whose last 4 characters are abcd
+__`^abc$`__   | matches lines that contain only abc
+__`^$`__      | matches empty lines
+__`^[ ]*$`__  | matches empty lines or lines containing only spaces
+__`\<fred`__ | matches any word starting with `fred` but not words like `alfred`
+__`fred\>`__ | matches any word ending with `fred` but not words like `freddy`
+__`\<fred\>`__ | matches exactly  `fred` surrounding by non-word characters
+
+---
+# Regular Expression Rules
+### Backreferences
+
+- When you enclose a basic regular expression in __`\( \)`__ brackets, or an extended
+regular expression in ordinary parentheses __`( )`__,
+the string that matched it is "remembered" for future use.
+
+- The regular expression __backreference__, __`\1`__, matches the first such
+"remembered string." In
+
+      __`\(aa*\)b\1`__
+
+      any string that matches `aa*` is saved into a storage cell named \1.
+ The only strings that this expression matches are
+ `aba`, `aabaa`, `aaabaaa`, `aaaabaaaa`, ...,.
+
+- In general, the expressions `\1`, `\2`, `\3`, …, `\9` remember matches of the
+1st, 2nd, 3rd, up to 9th parenthesized regular expressions.
+
+- The expression
+
+    __`^\(.*\):\(.*\)::\1:\2$`__
+
+    matches lines of the form
+       `x:y::x:y`     where `x` and `y` are possible empty strings, such as
+
+    abc:666::abc:666
+
+---
+# Filters: `cut` and `paste`
+
+- Both  `cut` and `paste` are handy. `cut` can be used to cut lines in specific
+places, whether at character positions, or by field positions, and can output
+the cut pieces with different output delimiters. You can specify what delimits
+the fields.
+
+- The default field separator is the TAB character.
+
+- You can use `cut` on csv files to pick out columns,
+-Examples
+   ```bash
+    cut -f1,5 -d: /etc/passwd
+   ```
+ prints the first and fifth fields of the password file, the username and "gcos"
+field.
+   ```bash
+    cut –c1-10  myfile
+   ```
+ prints only the first 10 characters of each line of myfile.
+
+---
+
 
 # A Bit About bash
 
