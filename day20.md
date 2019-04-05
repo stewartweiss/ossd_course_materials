@@ -16,9 +16,9 @@
 1. Read this interesting article about  [Personalities in Open Source Projects](https://opensource.com/open-organization/18/11/design-communities-personality-types?utm_campaign=intrel) ),
 and write your comments on it in your blog for the week ending on April 11.
 
-2. Read [Open Source news from opensource.com](https://opensource.com/article/19/3/news-march-2).
-Pick one story that looks interesting and write a summary and your opinion about it in your blog.
-Be prepared to talk about it on Friday April 12.
+2. Read [25 Years Later: Interview with Linus Torvalds](https://www.linuxjournal.com/content/25-years-later-interview-linus-torvalds).
+It is 25 years since Linux was "distributed". Write your take-away about thisinterview in your blog.
+
 
 
 

@@ -924,6 +924,52 @@ has colon-separated fields, and you want to sort numerically by field 2, use
       sort -t':' -k2 -n   myfile
    ```
 ---
+# Filters: `uniq` 
+
+- `uniq` filters out matching adjacent lines from its input stream, sending
+unique lines to output.  If the input stream is sorted and has duplicates, this
+produces output with duplicates removed:
+```bash
+ sort mydata | uniq
+```
+ produces a stream of unique lines from the file `mydata`.
+
+- It has several useful options as well:
+   ```bash
+       -i    - ignore case when trying to match
+       -c    - prefix lines by the number of occurrences
+       -d    - only print duplicate lines, one for each group
+       -u    - only print the duplicate lines
+
+   ```
+   
+---
+# Combining Filters 
+
+- Putting some of this filters together, 
+NYC Open Data has a database of baby names whose lines look like this:
+```bash
+2011,FEMALE,HISPANIC,Geraldine,13,75
+2011,FEMALE,HISPANIC,GIA,21,67
+2011,FEMALE,HISPANIC,GIANNA,49,42
+...
+```
+- Many names are repeated. We can get the frequencies of each name using
+this pipeline, assuming the file is named `babynames.csv`:
+```bash
+ sort -k4 babynames.csv | cut -d, -f4 | uniq -ic
+```
+ where `sort` sorts using the 4th field, after which `cut` prints only the 4th field, then
+ `uniq` filters out duplicates and puts counts to the left of the names, ignoring 
+ case.
+ 
+ We can get the ten most frequent names like this:
+```bash
+ sort -k4 babynames.csv | cut -d, -f4 | uniq -ic | sort -k1 -nr | head -10
+```
+
+
+---
 
 # Filters: `grep`, `egrep`, and `fgrep`
 
@@ -1121,12 +1167,13 @@ the fields.
 
 - The default field separator is the TAB character.
 
-- You can use `cut` on csv files to pick out columns,
--Examples
+- You can use `cut` on csv files to pick out columns:
+
+- Examples
    ```bash
     cut -f1,5 -d: /etc/passwd
    ```
- prints the first and fifth fields of the `/etc/password` file, the username and "gcos"
+ prints the first and fifth fields of the `/etc/password` file, i.e., the username and "gcos"
 field.
    ```bash
     cut –c1-10  myfile
@@ -1160,7 +1207,7 @@ $ cat countries
 Italy
 France
 England
-Dublin
+Ireland
 Japan
 ```
 ]
@@ -1172,7 +1219,7 @@ $ paste cities countries
 Rome    Italy
 Paris   France
 London  England
-Dublin  Dublin
+Dublin  Ireland
 Tokyo   Japan
 ```
 ]
@@ -1187,16 +1234,21 @@ argument, as in
     paste file -
   ```
 
- Suppose we want to add numbers to the lines, e.g. line 1, 2,3, 4, and 5. Then
-we can use the following pipeline
+ We can use this idea to add numbers to the lines in our previous example, 
+ e.g. line 1, 2,3, 4, and 5, as follows:
 ```bash
 $seq 1 5 | paste -  cities countries
-1	Rome	Italy
-2	Paris	France
-3	London	England
-4	Dublin	Dublin
-5	Tokyo	Japan
+1	Rome    Italy
+2	Paris   France
+3	London  England
+4	Dublin  Ireland
+5	Tokyo   Japan
 ``` 
+- See what happens when you try 
+```bash
+$seq 1 30 | paste -  - -
+```
+ Pretty interesting?
 
 ---
 
