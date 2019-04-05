@@ -1160,7 +1160,7 @@ $ cat countries
 Italy
 France
 England
-Ireland
+Dublin
 Japan
 ```
 ]
@@ -1172,7 +1172,7 @@ $ paste cities countries
 Rome    Italy
 Paris   France
 London  England
-Dublin  Ireland
+Dublin  Dublin
 Tokyo   Japan
 ```
 ]
@@ -1191,11 +1191,11 @@ argument, as in
 we can use the following pipeline
 ```bash
 $seq 1 5 | paste -  cities countries
-1	Rome    Italy
-2	Paris   France
-3	London  England
-4	Dublin  Ireland
-5	Tokyo   Japan
+1	Rome	Italy
+2	Paris	France
+3	London	England
+4	Dublin	Dublin
+5	Tokyo	Japan
 ``` 
 
 ---
