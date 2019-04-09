@@ -783,7 +783,7 @@ Filter | Description
 `wc`  |  print newline, word, and byte counts for each file
 
 ---
-# Filters: `cat` and  `tac`
+# `cat` and  `tac`
 
 - The `cat` command is a technically a filter, but without options it does
 no transformation: its output is exactly its input.
@@ -810,7 +810,7 @@ non-blank lines, `-s` _squeezes_ blank lines, and `-v` shows non-printing charac
      1	bash_tutorial_01.html
    ```
 ---
-# Filters: `head` and `tail`
+#  `head` and `tail`
 - Simply put, `head` displays the first _N_ lines of its input and `tail`, the last
 _N_ lines. By default for both,  _N_ is 10. To print a different number of lines,
 explicity use `-N` where _N_ is a positive integer:
@@ -839,7 +839,7 @@ get the summary of any command from the man page for it:
    ```
  since the summary is always line 4.
 ---
-# Filters: `sort`
+#  `sort`
 - `sort` is one of the most useful and easy to use filters:
 
    ```bash
@@ -869,7 +869,7 @@ character code of the terminal, which is usually ASCII or UTF-8.
 ]
 
 ---
-# Filters: `sort` Examples
+#  `sort` Examples
 
 - Assume `myfile` contains the lines
    ```bash
@@ -895,7 +895,7 @@ character code of the terminal, which is usually ASCII or UTF-8.
     b
    ```
 ---
-# Filters: `sort` Examples
+#  `sort` Examples
 
 - To force `sort` to ignore case and fold upper and lower case together, using
 GNU's `sort`, the option is `-f`:
@@ -924,7 +924,7 @@ has colon-separated fields, and you want to sort numerically by field 2, use
       sort -t':' -k2 -n   myfile
    ```
 ---
-# Filters: `uniq` 
+#  `uniq`
 
 - `uniq` filters out matching adjacent lines from its input stream, sending
 unique lines to output.  If the input stream is sorted and has duplicates, this
@@ -939,14 +939,14 @@ produces output with duplicates removed:
        -i    - ignore case when trying to match
        -c    - prefix lines by the number of occurrences
        -d    - only print duplicate lines, one for each group
-       -u    - only print the duplicate lines
+       -u    - only print the unique lines
 
    ```
-   
----
-# Combining Filters 
 
-- Putting some of this filters together, 
+---
+# Combining Filters
+
+- Putting some of this filters together,
 NYC Open Data has a database of baby names whose lines look like this:
 ```bash
 2011,FEMALE,HISPANIC,Geraldine,13,75
@@ -959,16 +959,17 @@ this pipeline, assuming the file is named `babynames.csv`:
 ```bash
  sort -k4 babynames.csv | cut -d, -f4 | uniq -ic
 ```
- where `sort` sorts using the 4th field, after which `cut` prints only the 4th field, then
- `uniq` filters out duplicates and puts counts to the left of the names, ignoring 
+ where `sort` sorts using the 4th field, after which `cut`* prints only the 4th field, then
+ `uniq` filters out duplicates and puts counts to the left of the names, ignoring
  case.
- 
+.footnote[
+* The `cut` filter is described later in these slides.
+]
+
  We can get the ten most frequent names like this:
 ```bash
  sort -k4 babynames.csv | cut -d, -f4 | uniq -ic | sort -k1 -nr | head -10
 ```
-
-
 ---
 
 # Filters: `grep`, `egrep`, and `fgrep`
@@ -1185,7 +1186,7 @@ field.
 # Filters: `cut` and `paste`
 ### `paste`
 
-- `paste` combines lines  consisting  of  the sequentially corresponding 
+- `paste` combines lines  consisting  of  the sequentially corresponding
 lines from different files, separated by TABs, to standard output.
 
 - Example:
@@ -1229,12 +1230,12 @@ Tokyo   Japan
 
 - We can feed standard input into the `paste` command simultaneously. A
 hyphen '-' represents standard input when it is used in place of a filename
-argument, as in 
+argument, as in
   ```bash
     paste file -
   ```
 
- We can use this idea to add numbers to the lines in our previous example, 
+ We can use this idea to add numbers to the lines in our previous example,
  e.g. line 1, 2,3, 4, and 5, as follows:
 ```bash
 $seq 1 5 | paste -  cities countries
@@ -1243,13 +1244,206 @@ $seq 1 5 | paste -  cities countries
 3	London  England
 4	Dublin  Ireland
 5	Tokyo   Japan
-``` 
-- See what happens when you try 
+```
+- See what happens when you try
 ```bash
 $seq 1 30 | paste -  - -
 ```
  Pretty interesting?
 
+---
+#  `awk`
+
+- `awk` is not just an extremely powerful filter; _it is a programming language_.
+The `awk` filter implements the AWK programming language, named after its
+authors, __A__ho, __K__ernighan, and __W__einberger.
+
+- You give `awk` a program and files on which the program is run, and `awk` runs
+the program on one file after another. The program is either enclosed in single
+quotes on the command line, or passed to `awk`  in a file like so:
+   ```bash
+    awk [AWK-OPTIONS] -f program-file  file ...
+   ```
+
+- If the program is enclosed in single quotes on the command-line, then you
+run `awk` like this:
+   ```bash
+   awk [AWK-OPTIONS]  'program-text' file ...
+   ```
+
+- Unlike the other filters, `awk` treats each input line as a sequence of fields,
+delimited by an __input field separator__, by default any amount of whitespace.
+Fields are named `$1`,`$2`, `$3`, and so on. $0 is the entire line. 
+
+- If there is no file argument, `awk` reads from standard input.
+
+- There is a lot to learn about `awk` - these slides contain just some
+simple examples.
+---
+# `awk`
+
+- Every `awk` program is a sequence of __pattern-action__ instructions or
+function definitions*.
+
+.footnote[
+* There are other kinds of statements as well, not covered here.
+]
+
+- A pattern-action instruction is of the form
+   ```bash
+    pattern  {action}
+   ```
+  where the pattern can be any of
+    - `BEGIN`  
+    - `END`
+    - a regular expression
+    - a comparison
+    - empty
+
+ and the action is an instruction in a mostly C-like syntax.
+
+- Example
+   ```bash
+    awk   ' $1 == "reboot"  {print $2; }'  file1 file2 file3
+   ```
+which prints the second field in any line whose first field is the string
+"reboot" from the input files `file1`, `file2`, and `file3`.
+---
+# `awk`
+- The input field separator can be a character or a regular expression.
+The command-line option `-F` sets it; use single quotes to protect
+regular expressions from the shell:
+```bash
+ awk -F:  '{print $3}' /etc/passwd
+```
+ which separates fields with the colon ":", and
+```bash
+ awk -F'aa*'  '{print $3}' file1
+```
+ which separates fields with one or more `a`'s.
+
+- Simples uses of `awk` are to print lines with fields
+that meet a condition, or to print the fields in a different order. `awk` has both 
+a simple `print` instruction as well as all forms of the `C` `printf`:
+
+ ```bash
+  awk -F, ' {print $1, $2}' names.csv
+ ```
+ prints the first two fields of every line with a space between them, whereas
+ ```bash
+  awk -F, '{printf "%s\t%s\n", $1, $2}' names.csv
+ ```
+ prints the first two fields with a TAB between them and a newline
+after. 
+---
+# `awk`
+
+- The __`BEGIN`__ pattern causes `awk` to execute the associated action __before__
+reading its input. The __`END`__ pattern's action is executed __after__ all 
+input has been read. The following adds the values of field $1 on all 
+lines and prints their sum.
+```bash
+   awk ' BEGIN { sum = 0 } { sum += $1 } END { print sum }'
+```
+ -  `awk` has variables that do not need declarations, and
+ -  `awk` has operators just like those in C.
+ 
+- The `awk` built-in variable __`NR`__ is the total number of records (lines) read 
+so far.  __`NF`__ is the number of fields on the current line, so this command 
+prints the average of the field $1 values:
+```bash
+   awk ' BEGIN { sum = 0 } { sum += $1 } END { if ( NR > 0 ) { print sum/NR } }'
+```
+- This 
+```bash
+  awk ' { printf "Line %d has %d fields.\n", NR, NF }' 
+```
+ displays for each input line, a line of the form
+```bash
+  Line 1 has 10 fields.
+   ...
+```
+---
+# `awk`
+
+- The variable `$NF` is the last field on a line, so 
+```bash
+ awk '{ print $NF }' 
+```
+ prints the last field on every input line.
+
+- The variable `FNR` is the input record number __in the current input file__.
+ We can print the headings of a CSV file using the following `awk` script:
+```bash
+  cat somecsvfile.csv | awk -F, ' \
+    {
+      if (FNR==1) \
+          for (i=1; i<=NF; i++) \
+              printf "Field %d:\t%s\n",i,$i \
+    }'  
+```
+  The backslashes are needed to prevent the shell from treating each line as
+a separate command. Notice that `$i` is used to iterate through 
+`$1`, `$2`,... `$NF`.
+
+---
+# `awk`
+
+- You can use extended regular expression matching in the pattern:
+```bash
+ awk -F, ' BEGIN {sum = 0}  $1 ~ /[AB].*/  { sum += $3 } END {print sum}' names.csv
+```
+ which adds the values from field $3 for all input lines whose first field starts
+with an "A" or a "B" from the csv file `names.csv`. All extended regular 
+expressions can be used in `awk`. They must be enclosed in `/  /` brackets.
+
+- Logical expressions can be patterns. This `awk` script finds the smallest 
+unused user id in the password file to assign to a new user:
+
+ ```bash
+  ypcat passwd | \
+   awk 'BEGIN {FS = ":" ; MAX = 0 } ($3 > MAX ) {MAX = $3}  \
+          END  {printf " %s\n",  MAX+1} '
+ ```
+ The baskslashes are used at the ends of lines that are part of the command.
+ And `FS` is the field separator variable. This is another way to dynamically
+ change it.
+
+---
+# `awk` 
+
+- `awk` has the following control flow statements:
+  - if (condition) statement [ else statement ]
+  - while (condition) statement
+  - do statement while (condition)
+  - for (expr1; expr2; expr3) statement
+  - for (var in array) statement
+  - break
+  - continue
+  - delete array[index]
+  - delete array
+  - exit [ expression ]
+  - { statements }
+  - a switch statement like C's.
+
+- `awk` also has many built-in functions, including numeric functions,
+ string functions, time functions, bit manipulationm and more.
+
+- It has array variables as well.
+
+- There is much more to `awk` than can be described in a few slides. The man
+page is a good place to look for a comprehensive description of what it can do.
+
+---
+# Filters yet to come:
+
+- Some filters have not yetmade it into these slides. The most important of
+these are
+ - sed,  shuf, split, tr
+
+ Of these, `sed` is the most powerful, and the hardest to master. 
+The others have a shallow learning curve, and you can read the manpages for them
+to figure out how to use them.
 ---
 
 
@@ -1263,8 +1457,8 @@ written by Bill Joy,
 and the __Bourne shell__ (`sh`), written by Stephen Bourne).
 
 
-- bash was a replacement for the [Bourne shell](https://en.wikipedia.org/wiki/Bourne_shell)
-Its name is a pun:
+- bash was a replacement for the 
+[Bourne shell](https://en.wikipedia.org/wiki/Bourne_shell). Its name is a pun:
 
   - bash = __b__ourne __a__gain __sh__ell
 
@@ -1345,7 +1539,44 @@ readable, so it is better to write, instead,
    Hello world; code responsibly!
    ```
 
+---
+# Passing Command-line Arguments to `bash`
 
+- `bash` stores the words from the command-line after the command itself
+in successive parameters `$1`, `$2`, ... 
+
+- The number of parameters on the command line after the command itself
+is `$#`. The entire set of words after the command is stored in `$*`:
+```bash
+ #!/bin/bash
+ echo "$*"
+```
+displays the words after the program name as they were entered.
+
+- The very last parameter can be accessed by the expression `${@: -1}`, whose 
+meaning will not be explained here.
+```bash
+ #!/bin/bash
+ echo "The last word on the command line is ${@: -1}"
+```
+---
+# Control Flow
+
+- `bash` has control flow, but it is very serious about its syntax and you must
+play by its rules, otherwise your scripts will not run. Following are some 
+examples.
+
+ ```bash
+    #!/bin/bash
+    if test $# -eq 0
+    then
+        echo "This is my directory:"
+        ls .
+    else
+        ls $1
+fi
+
+ ```
 
 
 ---
