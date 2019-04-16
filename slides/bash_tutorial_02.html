@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>bash</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="css/slides.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# CSCI 395.86 Open Source Software Development
+
+<br>
+
+## Working in the Linux Command-Line: `bash`
+
+.author[
+Stewart Weiss <br>
+]
+
+
+
+.license[
+Unless noted otherwise all content is released under a
+ [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+]
+
+
+---
+
+
+# A Bit About bash
+
+- bash was written by Brian Fox in 1989 at the request of Richard Stallman,
+of the Free Software Foundation. It was added to by Chet Ramey in the early 1990's.
+
+- At the time, there were several other shells, such as the __C-shell__ (`csh`)
+written by Bill Joy,
+and the __Bourne shell__ (`sh`), written by Stephen Bourne).
+
+
+- bash was a replacement for the
+[Bourne shell](https://en.wikipedia.org/wiki/Bourne_shell). Its name is a pun:
+
+  - bash = __b__ourne __a__gain __sh__ell
+
+
+- It is distributed with most Linux distributions ans is the default shell in
+many systems, including most Linux distributions, Apple's macOS, and Solaris.
+
+- It has become very popular.
+
+---
+
+
+
+
+# Shell Scripts
+
+- All common Unix shells are Turing-complete* __scripting__ languages.
+Programs written in a shell's language are called __shell scripts__.
+
+
+
+.footnote[
+* A language is Turing complete if it can be used to simulate any Turing machine.
+]
+
+
+- A _shell script_ is basically a program written in the shell programming language.
+
+- A bash script is written in bash; a C shell script is written using the syntax of the
+C shell.
+
+- This is a simple bash script:
+
+   ```bash
+    #!/bin/bash
+    # This script does nothing except print "Hello world; code responsibly!"
+    # Its purpose is to show what the first line looks like and
+    # to introduce comments.
+    #
+    # Written by Stewart Weiss, Sept. 16, 2014
+
+    echo "Hello world; code responsibly!"
+   ```
+
+- The first line is required - it tells the shell to run the interpreter
+ `/bin/bash` using the rest of the file as its input.  In effect it  says,
+"I am a bash script". You must put it at the top of every bash script.
+
+- The comment delimiter is the `#` - anything after it is ignored by bash.
+
+- The only command in this file is the `echo` command.
+
+
+
+---
+
+# Running a Shell Script
+
+- Suppose the preceding script is in a file named `helloworld` in the current
+working directory. We need to make it an executable file by typing
+at the prompt (here assumed to be `$`):
+
+   ```bash
+   $ chmod +x helloworld
+   ```
+
+- The `chmod` command changes the permissions on its file arguments. The `+x`
+means "add execute permission for all users". The file also needs to be
+readable, so it is better to write, instead,
+
+   ```bash
+   $ chmod +rx helloworld
+   ```
+
+- We can run the script by typing its name, and the output appears below.
+   ```bash
+   $ ./helloworld
+   Hello world; code responsibly!
+   ```
+
+---
+# Changing Your PATH Variable
+
+-  To be able to enter
+   ```bash
+    $ helloworld
+   ```
+ and have it execute requires that the `PATH` environment variable have
+your working directory in it.
+
+- PATH is a colon-separated list of directories that are searched by `bash` when you enter
+a command name.
+
+ To see its contents, enter
+   ```bash
+    $ echo $PATH
+   ```
+ or
+   ```bash
+    $ printenv PATH
+   ```
+- You can edit your `.bashrc` file to put "." at the __end__ of `PATH`. The easiest
+but not the best way is to edit the file, find `PATH` in it and put ":." at the
+end.
+
+
+
+---
+# Passing Command-line Arguments to `bash`
+
+- `bash` stores the words from the command-line after the command itself
+in successive parameters `$1`, `$2`, ...
+
+- The number of parameters on the command line after the command itself
+is `$#`. The entire set of words after the command is stored in `$*`:
+```bash
+ #!/bin/bash
+ echo "$*"
+```
+displays the words after the program name as they were entered.
+
+- The very last parameter can be accessed by the expression `${@: -1}`, whose
+meaning will not be explained here.
+```bash
+ #!/bin/bash
+ echo "The last word on the command line is ${@: -1}"
+```
+---
+# Control Flow
+
+- `bash` has control flow, but it is very serious about its syntax and you must
+play by its rules, otherwise your scripts will not run. Following are some
+examples.
+
+ ```bash
+    #!/bin/bash
+    if test $# -eq 0
+    then
+        echo "This is my directory:"
+        ls .
+    else
+        ls $1
+fi
+
+ ```
+
+
+---
+
+    </textarea>
+
+<!-- these scripts are used for redering the above as markdown -->
+     <script src="js/remark.js" type="text/javascript">
+    </script>
+    <script src="js/remark_conf.js" type="text/javascript">
+    </script>
+
+<!-- the following scripts allow Latex-like formatting -->
+    <script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX", "output/HTML-CSS"],
+         tex2jax: {
+           inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+           displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+           processEscapes: true
+         },
+         "HTML-CSS": { availableFonts: ["TeX"] }
+       });
+    </script>
+
+
+  </body>
+</html>

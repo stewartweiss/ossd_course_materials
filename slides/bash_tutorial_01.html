@@ -15,7 +15,8 @@ class: center, middle
 
 <br>
 
-## Working in the Linux Command-Line
+## Working in the Linux Command-Line:
+### A Short List of the Best and Greatest Commands
 
 .author[
 Stewart Weiss <br>
@@ -50,8 +51,8 @@ cover the most important aspects of working in the _UNIX programming environment
     - using Unix __commands__ and
     - using the __shell__.
 
-- These slides start with commands and then cover the most common Linux shell,
-__bash__.
+- These slides focus on commands primarily and just a bit about the most common Linux shell,
+__bash__. The next slide set covers `bash`.
 
 - You are encouraged to read the many resources on the topics presented here.
 The last slide has links to the ones I think are good and concise.
@@ -1273,7 +1274,7 @@ run `awk` like this:
 
 - Unlike the other filters, `awk` treats each input line as a sequence of fields,
 delimited by an __input field separator__, by default any amount of whitespace.
-Fields are named `$1`,`$2`, `$3`, and so on. $0 is the entire line. 
+Fields are named `$1`,`$2`, `$3`, and so on. $0 is the entire line.
 
 - If there is no file argument, `awk` reads from standard input.
 
@@ -1294,7 +1295,7 @@ function definitions*.
     pattern  {action}
    ```
   where the pattern can be any of
-    - `BEGIN`  
+    - `BEGIN`
     - `END`
     - a regular expression
     - a comparison
@@ -1323,7 +1324,7 @@ regular expressions from the shell:
  which separates fields with one or more `a`'s.
 
 - Simples uses of `awk` are to print lines with fields
-that meet a condition, or to print the fields in a different order. `awk` has both 
+that meet a condition, or to print the fields in a different order. `awk` has both
 a simple `print` instruction as well as all forms of the `C` `printf`:
 
  ```bash
@@ -1334,29 +1335,29 @@ a simple `print` instruction as well as all forms of the `C` `printf`:
   awk -F, '{printf "%s\t%s\n", $1, $2}' names.csv
  ```
  prints the first two fields with a TAB between them and a newline
-after. 
+after.
 ---
 # `awk`
 
 - The __`BEGIN`__ pattern causes `awk` to execute the associated action __before__
-reading its input. The __`END`__ pattern's action is executed __after__ all 
-input has been read. The following adds the values of field $1 on all 
+reading its input. The __`END`__ pattern's action is executed __after__ all
+input has been read. The following adds the values of field $1 on all
 lines and prints their sum.
 ```bash
    awk ' BEGIN { sum = 0 } { sum += $1 } END { print sum }'
 ```
  -  `awk` has variables that do not need declarations, and
  -  `awk` has operators just like those in C.
- 
-- The `awk` built-in variable __`NR`__ is the total number of records (lines) read 
-so far.  __`NF`__ is the number of fields on the current line, so this command 
+
+- The `awk` built-in variable __`NR`__ is the total number of records (lines) read
+so far.  __`NF`__ is the number of fields on the current line, so this command
 prints the average of the field $1 values:
 ```bash
    awk ' BEGIN { sum = 0 } { sum += $1 } END { if ( NR > 0 ) { print sum/NR } }'
 ```
-- This 
+- This
 ```bash
-  awk ' { printf "Line %d has %d fields.\n", NR, NF }' 
+  awk ' { printf "Line %d has %d fields.\n", NR, NF }'
 ```
  displays for each input line, a line of the form
 ```bash
@@ -1366,9 +1367,9 @@ prints the average of the field $1 values:
 ---
 # `awk`
 
-- The variable `$NF` is the last field on a line, so 
+- The variable `$NF` is the last field on a line, so
 ```bash
- awk '{ print $NF }' 
+ awk '{ print $NF }'
 ```
  prints the last field on every input line.
 
@@ -1380,10 +1381,10 @@ prints the average of the field $1 values:
       if (FNR==1) \
           for (i=1; i<=NF; i++) \
               printf "Field %d:\t%s\n",i,$i \
-    }'  
+    }'
 ```
   The backslashes are needed to prevent the shell from treating each line as
-a separate command. Notice that `$i` is used to iterate through 
+a separate command. Notice that `$i` is used to iterate through
 `$1`, `$2`,... `$NF`.
 
 ---
@@ -1394,10 +1395,10 @@ a separate command. Notice that `$i` is used to iterate through
  awk -F, ' BEGIN {sum = 0}  $1 ~ /[AB].*/  { sum += $3 } END {print sum}' names.csv
 ```
  which adds the values from field $3 for all input lines whose first field starts
-with an "A" or a "B" from the csv file `names.csv`. All extended regular 
+with an "A" or a "B" from the csv file `names.csv`. All extended regular
 expressions can be used in `awk`. They must be enclosed in `/  /` brackets.
 
-- Logical expressions can be patterns. This `awk` script finds the smallest 
+- Logical expressions can be patterns. This `awk` script finds the smallest
 unused user id in the password file to assign to a new user:
 
  ```bash
@@ -1410,7 +1411,7 @@ unused user id in the password file to assign to a new user:
  change it.
 
 ---
-# `awk` 
+# `awk`
 
 - `awk` has the following control flow statements:
   - if (condition) statement [ else statement ]
@@ -1441,148 +1442,14 @@ page is a good place to look for a comprehensive description of what it can do.
 these are
  - sed,  shuf, split, tr
 
- Of these, `sed` is the most powerful, and the hardest to master. 
+ Of these, `sed` is the most powerful, and the hardest to master.
 The others have a shallow learning curve, and you can read the manpages for them
 to figure out how to use them.
 ---
-
-
-# A Bit About bash
-
-- bash was written by Brian Fox in 1989 at the request of Richard Stallman,
-of the Free Software Foundation. It was added to by Chet Ramey in the early 1990's.
-
-- At the time, there were several other shells, such as the __C-shell__ (`csh`)
-written by Bill Joy,
-and the __Bourne shell__ (`sh`), written by Stephen Bourne).
-
-
-- bash was a replacement for the 
-[Bourne shell](https://en.wikipedia.org/wiki/Bourne_shell). Its name is a pun:
-
-  - bash = __b__ourne __a__gain __sh__ell
-
-
-- It is distributed with most Linux distributions ans is the default shell in
-many systems, including most Linux distributions, Apple's macOS, and Solaris.
-
-- It has become very popular.
-
----
-
-
-
-
-# Shell Scripts
-
-- All common Unix shells are Turing-complete* __scripting__ languages.
-Programs written in a shell's language are called __shell scripts__.
-
-
-
-.footnote[
-* A language is Turing complete if it can be used to simulate any Turing machine.
-]
-
-
-- A _shell script_ is basically a program written in the shell programming language.
-
-- A bash script is written in bash; a C shell script is written using the syntax of the
-C shell.
-
-- This is a simple bash script:
-
-   ```bash
-    #!/bin/bash
-    # This script does nothing except print "Hello world; code responsibly!"
-    # Its purpose is to show what the first line looks like and
-    # to introduce comments.
-    #
-    # Written by Stewart Weiss, Sept. 16, 2014
-
-    echo "Hello world; code responsibly!"
-   ```
-
-- The first line is required - it tells the shell to run the interpreter
- `/bin/bash` using the rest of the file as its input.  In effect it  says,
-"I am a bash script". You must put it at the top of every bash script.
-
-- The comment delimiter is the `#` - anything after it is ignored by bash.
-
-- The only command in this file is the `echo` command.
-
+# Useful Links
 
 
 ---
-
-# Running a Shell Script
-
-- Suppose the preceding script is in a file named `helloworld` in the current
-working directory. We need to make it an executable file by typing
-at the prompt (here assumed to be `$`):
-
-   ```bash
-   $ chmod +x helloworld
-   ```
-
-- The `chmod` command changes the permissions on its file arguments. The `+x`
-means "add execute permission for all users". The file also needs to be
-readable, so it is better to write, instead,
-
-   ```bash
-   $ chmod +rx helloworld
-   ```
-
-- We can run the script by typing its name, and the output appears below.
-   ```bash
-   $ ./helloworld
-   Hello world; code responsibly!
-   ```
-
----
-# Passing Command-line Arguments to `bash`
-
-- `bash` stores the words from the command-line after the command itself
-in successive parameters `$1`, `$2`, ... 
-
-- The number of parameters on the command line after the command itself
-is `$#`. The entire set of words after the command is stored in `$*`:
-```bash
- #!/bin/bash
- echo "$*"
-```
-displays the words after the program name as they were entered.
-
-- The very last parameter can be accessed by the expression `${@: -1}`, whose 
-meaning will not be explained here.
-```bash
- #!/bin/bash
- echo "The last word on the command line is ${@: -1}"
-```
----
-# Control Flow
-
-- `bash` has control flow, but it is very serious about its syntax and you must
-play by its rules, otherwise your scripts will not run. Following are some 
-examples.
-
- ```bash
-    #!/bin/bash
-    if test $# -eq 0
-    then
-        echo "This is my directory:"
-        ls .
-    else
-        ls $1
-fi
-
- ```
-
-
----
-
-
-
 
 
 
