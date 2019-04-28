@@ -128,7 +128,7 @@ of others that took place concurrently with what you are about to do._
 
     > _You will now create a few more files in the `feature1` branch in your
 repository. This simulates your working on your own on the feature branch that
-is your task in this quest.
+is your task in this quest._
 
 15. Check out the `feature1` branch in your repository:
 
