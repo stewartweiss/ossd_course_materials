@@ -144,13 +144,14 @@ line, `bash` will prompt you for the remaining lines with your
 __secondary prompt string__, the `PS2` shell variable. It is usually "`-->`".
 So when you see it, just type the second line, followed by the newline, then
 the third and so on, and type `done` on the last line:
-    ```bash
+
+   ```bash
       $ for i in 3 4 5 ; do
            echo "feature1_${i}" > feature1_${i}
            git add feature1_${i}
            git commit . -m "added feature1_${i}"
         done
-    ```
+   ```
 
    The result of this will be that you created three new files named `feature1_3`,
 `feature1_4`, and `feature1_5`, with three new commits.
