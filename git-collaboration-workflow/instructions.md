@@ -7,7 +7,8 @@ script:
     ```bash
       create_demo_repo.sh  <repo_name>
     ```
- This creates a repository in the current working directory with whatever name
+    
+    This creates a repository in the current working directory with whatever name
 you choose as its only argument,  with a forked history and two branches,
 one named `master` and one named  `feature1`.
 For the rest of these instructions, we will assume that the name
