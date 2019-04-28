@@ -11,11 +11,11 @@
 
 class: center, middle
 
-## CSCI 395.86 Open Source Software Development
+# CSCI 395.86 Open Source Software Development
 
 <br>
 
-### Git Tutorial:
+## Git Tutorial:
 ### Merging and Rebasing
 
 .author[
@@ -34,7 +34,7 @@ and released under a [Attribution 2.5 Australia (CC BY 2.5 AU)](https://creative
 
 ---
 
-## Overview
+# Overview
 
 - Git `merge` and Git `rebase` both integrate changes from one branch into
 another branch, but they do it in different ways.
@@ -53,7 +53,7 @@ branch.
 by creating brand new commits for each commit in the original branch.__
 
 ---
-## Merging
+# Merging
 
 - Suppose you are working on a new feature in a dedicated branch named
 `feature`. Suppose that  a team member updates the master branch with new commits.
@@ -68,7 +68,7 @@ This results in a forked history:
 `feature` branch using `merge`.
 
 ---
-## Merging
+# Merging
 
 - You can merge the master branch __into the feature branch__ as follows:
 
@@ -85,7 +85,7 @@ histories of both branches. Your project's branching structure now looks like th
 
 - Notice that it creates a single, new commit record, the merge commit, in `feature`.
 ---
-## Merging
+# Merging
 
 - There are many forms of the `merge` command, and unless you memorize
 what each does, it is best to use the form from the preceding slide.
@@ -112,7 +112,7 @@ checked out branch__, not the other way around.
 
 
 ---
-## Merging in the Workflow
+# Merging in the Workflow
 
 - Merging is safe because it is a non-destructive operation -
 <span class="blue">existing branches are not changed in any way</span>.
@@ -143,7 +143,7 @@ does not really solve the problem.
 
 
 ---
-## Rebasing
+# Rebasing
 
 - If you remember that the word "base" is the root of the word "rebase", then
 you will remember how the `rebase` command differs from the `merge` command:
@@ -159,7 +159,7 @@ to a different position in the repository's history.
  and that you want to incorporate the new commits in `master` into your
 `feature` branch.
 ---
-## Rebasing
+# Rebasing
 - You can use the `rebase` command instead of the `merge` command to do this.
 Namely, you can rebase the `feature` branch __onto__  the `master` branch using
 the following commands:
@@ -176,7 +176,7 @@ the following commands:
 <img src="img/rebase-onto-feature.png" height="300" >
 ]
 ---
-## Rebasing
+# Rebasing
 
 - In effect, rebasing incorporates all of the  new commits in the command's
 branch argument (i.e., `master` in "`git rebase master`") into the currently
@@ -196,7 +196,7 @@ cleaner:
       project without any forks, which makes it easier to navigate the project
        with commands like `git log`.
 ---
-## How Rebasing Works
+# How Rebasing Works
 
 - Git's `rebase` does the following:
 
@@ -228,43 +228,14 @@ conflict is manually resolved.
 - When a rebase conflict occurs, Git outputs instructions for how to fix it.
 
 ---
-## A Rebasing Conflict Example
-
-- Suppose that the following sequence of commands creates and updates a repository.
-
-   ```bash
-     $ git init
-     $ echo "My first file" > file1 ; git add file1
-     $ git commit . -m "Added file1 to empty repository"
-     $ echo "My second file" > file2 ; git add file2
-     $ git commit . -m "Added file2 "
-     $ echo "My third file" > file3 ; git add file3
-     $ git commit . -m "Added file3 "
-     $ git checkout -b branch1
-     $ echo "Better version of file3" >|  file3 ; git add file3
-     $ git commit . -m "Updated file3"
-     $ echo "New file in branch1" > file4 ; git add file4
-     $ git commit . -m "Added file4 to this branch"
-     $ git checkout master
-     $ echo "new file in master" > file5 ; git add .
-     $ git commit . -m "Added file5 to master"
-   ```
- At this point `file3` has a different first line in   `master`
-from what it does in `branch1`. The history is forked because
-the `master` branch was updated with a new commit after the commit
-where `branch1` was branched off of `master`.
-
-
----
-## Rebasing Conflict Example
-
-- When we run `git rebase` from `branch1`, Git cannot
+# A Rebasing Conflict
+- In this simple example, a file named `file3` has different content in the `master`
+branch from what it has in the current branch. When we run `git rebase` Git cannot
 complete it because it found a merge conflict when trying to apply the patch for
 the commit in the current branch on top of the commit for `file3` in `master`.
-The session lloks like this:
+The output is:
 
    ```bash
-    $ git checkout branch1
     $ git rebase master
     First, rewinding head to replay your work on top of it...
     Applying: added file1
@@ -286,7 +257,7 @@ The session lloks like this:
    ```
 
 ---
-## Rebasing Issues
+# Rebasing
 
 - It is important to know __when not to rebase__, because rebasing is
 not without downsides:
@@ -299,11 +270,11 @@ Rebasing loses the context provided by a merge commit — you cannot
 see when upstream changes were incorporated into the feature.
 
 
-#### The Golden Rule of Rebasing
+### The Golden Rule of Rebasing
 The Golden Rule of Git `rebase` is to __never use it on public branches__.
 
 ---
-## A Bad Rebase
+# A Bad Rebase
 
 - Consider  what would happen in our example if you rebased the `master` branch
 onto the `feature` branch. After the rebase, it would look like this:
@@ -319,7 +290,7 @@ Since rebasing results in brand new commits, Git will think that your master
 branch’s history has diverged from everybody else’s.
 
 ---
-## A Bad Rebase
+# A Bad Rebase
 
 - Can it be fixed?
 
@@ -337,7 +308,7 @@ rebased branch).
 If the answer is yes, do not rebase.
 
 ---
-## Interactive Rebasing
+# Interactive Rebasing
 
 - Interactive rebasing lets you alter commits as they are
 moved to the new branch. This is even more powerful than an automated rebase,
@@ -355,7 +326,7 @@ commits in your current working branch to the passed branch head.
 it is  important to not use `git rebase` on commits that have
 been pushed public, or it will appear that your project history disappeared.
 ---
-## Interactive Rebasing
+# Interactive Rebasing
 
 - To begin an interactive
 rebasing session, pass the `i` option to `git rebase` command:
@@ -380,7 +351,7 @@ command and/or re-ordering the entries, you can make the branch’s history
 look like whatever you want.
 
 ---
-## Interactive Rebasing Example
+# Interactive Rebasing Example
 
 - In this example, if the 2nd commit fixes a small problem in the 1st commit,
 you can condense them into a single commit with the `fixup` command:
@@ -397,29 +368,7 @@ your instructions, resulting in project history that looks like the following:
 ]
 
 ---
-## Rebasing in the Workflow
-
-- Assume now that this is a team project. There is an upstream repository to
-which everyone has full access rights.
-
-- Each team member is working on a separate feature branch. The workflow that is
-used is
-  - You work on your local feature branch for a while.
-  - When you learn that other team members have updated the upstream master
-branch, you pull the new commits down into your local copy of `master`.
-  - You now need to integrate the changes in `master` into your feature branch.
-
-- Previously we saw that you could do a merge to accomplish the last step.
-
-- But as you saw before, rebasing your feature onto the updated `master` makes
-your history linear and cleaner. So in this scenario you would do the following:
-   ```bash
-    git checkout master
-    git fetch upstream/master
-    git merge upstream/master
-    git checkout feature
-    git rebase master
-   ```
+# Rebasing in the Workflow
 
 
 ---

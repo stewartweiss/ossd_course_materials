@@ -1446,12 +1446,60 @@ these are
 The others have a shallow learning curve, and you can read the manpages for them
 to figure out how to use them.
 ---
-# Useful Links
+#Useful Links
 
 
 ---
+## Exercise
 
+1. Suppose that you want to drop down the headings by one level each in a set of
+markdown files whose names end in a `.md` extension, in a directory named `documents`.
+For example, you want a heading starting with
+`#` to become a `##` heading, and a `##` heading to become a `###` heading.
+But you do not want level 4 headings to change, so `####` stays as `####`.
 
+ You are not sure whether there are spaces after the heading tag before the actual
+text. You can do any of the following:
+    1. Open a graphical editor and use its __find/replace__ feature on each and every file.
+    1. Open a command-line editor like `vi` or `vim` and use its find functionality to
+ find every occurrence and change it.
+    1. Use `vi` or `vim` to do a __global substitution__.
+    1. Use a well-designed `sed` command to do all of the replacements in a single shot.
+
+ The last alternative is clearly ther best use of your time, and you can ask `sed`
+to make a backup in case you are nervous about ruining your files.
+
+ What is the `vi` substitution that will do this?
+
+ What is the `sed` command that can do this?
+
+---
+## Exercise
+2. Suppose that for stylistic reasons, you need to replace every C-style single-line comment
+in your C++ file by C++ style comments. For example, you need to
+replace
+  ```bash
+    /*  The following code finds the min element in the array */
+   ```
+by
+   ```bash
+    //  The following code finds the min element in the array
+   ```
+regardless of whether there is code to the left of the comment.
+
+ You can do any of the following:
+    1. Open a graphical editor and use its __find/replace__ feature.
+    1. Open a command-line editor like `vi` or `vim` and use its find functionality to
+     find every occurrence and change it.
+    1. Use `vi` or `vim` to do a __global substitution__.
+    1. Use a well-designed `sed` command to do all of the replacements in a single shot.
+
+ The last alternative is clearly ther best use of your time, and you can ask `sed`
+to make a backup in case you are nervous about ruining your files.
+
+ What is the `vi` substitution that will do this?
+ What is the `sed` command that can do this?
+---
 
     </textarea>
 

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Git Workflow Tutorial</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="css/slides.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+## CSCI 395.86 Open Source Software Development
+
+<br>
+
+## Collaboration Workflow Basics
+### (the safe way)
+
+
+.author[
+Stewart Weiss <br>
+]
+
+
+
+.license[
+Unless noted otherwise all content is released under a
+ [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by/4.0/).<br>
+This content is based in part on articles appearing in Atlassian BitBucket entitled<br> [Merging vs. Rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing#conceptual-overview)
+and
+[Git Fetch](https://www.atlassian.com/git/tutorials/syncing/git-fetch)
+released under a [Attribution 2.5 Australia (CC BY 2.5 AU)](https://creativecommons.org/licenses/by/2.5/au/) license.
+]
+
+---
+## Remote Repositories
+
+- A __remote repository__ is technically a version of your project other than
+the local repository. It can be on the same machine, or on a different machine
+on your local network, or on a remote network. It is usually just called a
+__remote__, for short.
+
+- Uusally, remote repositories are versions of your repository that are hosted on
+the Internet or on another network to which you have access.
+
+- You can have several of them, each of which generally is either read-only or
+read/write for you.
+
+- Quite often, the remotes are maintained by someone else and you do not have
+write access to them.
+
+- Collaborating with others involves managing these remote repositories and
+moving data to and from them when you need to share work.
+
+- Managing and working with remote repositories includes knowing how to
+ - add remote repositories,
+ - remove remotes that are no longer valid,
+ - manage various remote branches and define them as being tracked or not,
+ - moving data to and from the remotes (i.e., fetching, pulling, and pushing).
+
+---
+## Viewing the Remotes
+- Git lets you give short names called __handles__ for the URLS of your remotes.
+
+- To see which remotes you have configured, you can run the `git remote`
+command. It lists the short names of each remote handle you’ve specified.
+
+- If you cloned the repository, you should at least see `origin` which is the
+default name Git gives to the server from which you cloned. The `-v` option
+shows the URL associated with the remote. For example, if we cloned the repository
+
+   `https://github.com/stewartweiss/devel.git`
+
+  to the local machine we will see
+   ```bash
+     $ git remote -v
+     origin	https://github.com/stewartweiss/devel.git (fetch)
+     origin	https://github.com/stewartweiss/devel.git (push)
+   ```
+- To add a new remote, use `git remote add` specifying the handle name and the
+URL:
+   ```bash
+    $ git remote add remote-repo https://github.com/stewartweiss/devel-newfeature.git
+    $ git remote -v
+    origin	https://github.com/stewartweiss/devel.git (fetch)
+    origin	https://github.com/stewartweiss/devel.git (push)
+    remote-repo	https://github.com/stewartweiss/devel-newfeature.git (fetch)
+    remote-repo	https://github.com/stewartweiss/devel-newfeature.git (push)
+```
+---
+## Remote Branches
+- Remember that a branch is just a __reference__ to a commit object. Internally,
+it is a file containing the SHA-1<span class="super">1</span> number of a
+commit object. It is like a
+pointer in a program, or a symbolic link in the Linux file system.
+
+- __Remote references__ are references _in your remote repositories_,
+including branches, tags, and other things. They are __not__ local.
+You can get a full list of remote references explicitly with
+.left-column2[
+   `git ls-remote [remote]`
+]
+.right-column2[
+   `git remote show [remote]`<br> for even more information.
+]
+.below-column2[
+]
+- __Remote-tracking branches__ are __local__ branches. They are references to
+the state of remote branches. They are like constant pointers - you cannot move
+them. Only  Git can move them for you whenever you do any network communication,
+to make sure they accurately represent the state of the remote repository.
+
+- The purpose of a remote-tracking branch is to remember the last known
+position of the branch in the remote repository.
+
+- Remote-tracking branches take the form &lt; remote &gt;/&lt; branch &gt;.
+For example the remote-tracking branch for the `master` on `origin` is
+`origin/master`.
+
+.footnote[
+1 - An SHA-1 number is a 160-bit hash value, the output of a cryptographic hash
+function.
+]
+---
+## Remote Branch Terminology
+- Unfortunately, the terminology is a bit confusing and ambiguous.
+
+- The branch on a remote is called a "remote branch", but people often use
+"remote branch" as a short-hand for "remote-tracking branch".
+
+- Even worse,
+there are local branches that can __track__ remote branches, and these are not
+called remote-tracking branches.  For example, when you clone a repository
+and Git sets up `origin/master` as a remote-tracking branch, it also sets
+your local `master` branch to __track__ `origin/master`. (Egads!)
+
+- In these notes, when we want to refer to the branch that is __in__ the remote
+repository, we will call it the __remote's branch__, not the __remote branch__.
+We will use "remote branch" as a short-hand for "remote-tracking branch."
+
+---
+## Example
+
+- Assume there is Git server on the network at `git.ourcompany.com`.
+You clone from this, and Git’s `clone` command automatically names the remote
+`origin` for you, pulls down all its data, creates a reference to where its
+`master` branch is, and names it `origin/master` locally.
+
+- Git also gives you your own local `master` branch starting at the
+same commit as the `origin/master` branch. The picture is
+
+.center[
+<img src="img/remote-branches-1.png" height="360" >
+]
+
+---
+## How Git Organizes and Stores  Branches
+
+-  Git keeps remote and local branch commits separate from each other through
+the use of __branch refs__. The refs for local branches are stored in
+`.git/refs/heads/`.
+
+- In the repository directory, if you enter
+   ```bash
+    $ ls .git/refs/heads
+   ```
+you will see the branches as if you typed
+   ```bash
+    $ git branch
+   ```
+- As with local branches, Git also has refs for remote branches - remote branch
+refs are stored as files in the `.git/refs/remotes/` directory.
+
+---
+## Working With Remotes
+
+- To list the remote branches,  use the `-r` flag to `git branch`.
+If we do this in the repository that we cloned earlier, `devel.git`, we see
+   ```bash
+    $ git branch -r
+       origin/feature1
+       origin/master
+   ```
+
+- Although we added the remote `remote-repo` we do not see its remote branches
+because we have not fetched that data yet. When we do, this command will display
+more information.
+
+---
+## About Fetching and Pulling
+- The `git fetch` command downloads commits, files, and refs from a
+remote repository into your local repository.
+It lets you see the history of the upstream repository,
+but it does not force you to actually merge the changes into your local repository.
+
+- Git isolates the fetched content  separately from existing local content.
+Fetched content has to be explicitly checked out using the `git checkout` command.
+
+- In this sense, fetching is a __safe__ way to review commits before
+integrating them into your local repository.
+
+- In contrast, `git pull` is more aggressive;
+it  downloads the remote content for the currently checked out local branch
+and immediately executes `git merge` to create a merge commit for the new
+remote content.
+
+
+---
+## Using the `fetch` Command
+- The `git fetch` command works as follows.
+- To fetch the data from a remote repository named `repo`, use
+   ```bash
+    $ git fetch repo
+   ```
+ By default,
+   ```bash
+    $ git fetch
+   ```
+ will fetch from `origin` alone. To fetch all remotes, use the `--all` flag.
+
+- If you are cautious, use
+   ```bash
+    $ git fetch --dry-run --verbose
+   ```
+ to see what Git would do without actually doing it.
+
+- To fetch specific branches from the remote, list them after the remote:
+   ```bash
+    $ git fetch remote-repo  master feature2
+   ```
+---
+## Creating a Local Branch for an Upstream Feature Branch
+- The next few slides demonstrate how to fetch a remote branch and update
+our local working state so that it contains the remote contents.
+
+- In this example, we assume that there is a central, remote repository  that
+we cloned from using the git `clone` command, namely
+```bash
+  https://github.com/stewartweiss/devel.git
+```
+ We also assume that the remote repository whose handle is `remote-repo`
+contains a feature branch named `feature2` that  we want to  configure, fetch,
+and examine.
+
+---
+## Fetching a Remote Branch:
+### 1. Inspect the Remote First
+- We will fetch a remote branch and update our local working state to the
+remote contents, using  the example from previous slides.
+
+- The local repository
+was cloned from the `devel.git` repo on GitHub, and a remote named
+`remote-repo` was added that maps to
+
+ `https://github.com/stewartweiss/devel-newfeature.git`
+
+- First we inspect the `remote-repo` repository with  `git remote show`:
+   ```bash
+    $ git remote show remote-repo
+    * remote remote-repo
+      Fetch URL: https://github.com/stewartweiss/devel-newfeature.git
+      Push  URL: https://github.com/stewartweiss/devel-newfeature.git
+      HEAD branch: master
+      Remote branches:
+        exploratory new (next fetch will store in remotes/remote-repo)
+        feature2    new (next fetch will store in remotes/remote-repo)
+        master      new (next fetch will store in remotes/remote-repo)
+      Local ref configured for 'git push':
+        master pushes to master (local out of date)
+   ```
+ Notice that `master` is configured to push to this repo's `master` branch.
+If we were to fetch this remote's data, `master` would track its `master`
+branch.
+
+---
+## Fetching a Remote Branch:
+### 2. Inspect Origin for Comparison
+- We  also inspect the `origin` remote before continuing, and notice the
+difference:
+   ```bash
+    $ git remote show origin
+    * remote origin
+      Fetch URL: https://github.com/stewartweiss/devel.git
+      Push  URL: https://github.com/stewartweiss/devel.git
+      HEAD branch: master
+      Remote branches:
+        feature1 tracked
+        master   tracked
+      Local branch configured for 'git pull':
+        master merges with remote master
+      Local ref configured for 'git push':
+        master pushes to master (up to date)
+   ```
+ Here it shows that the two branches in `origin` are being tracked (locally).
+This is because we pulled that data down already and Git set up the local branches
+to track the remote's branches.
+
+---
+## Examining  a Remote Branch:
+### 3. Fetch the Selected Branch
+- We fetch the `feature2` branch from `remote-repo`:
+   ```bash
+    $ git fetch remote-repo feature2
+    warning: no common commits
+    remote: Enumerating objects: 27, done.
+    remote: Counting objects: 100% (27/27), done.
+    remote: Compressing objects: 100% (14/14), done.
+    remote: Total 27 (delta 7), reused 17 (delta 4), pack-reused 0
+    Unpacking objects: 100% (27/27), done.
+    From https://github.com/stewartweiss/devel-newfeature
+     * branch            feature2   -> FETCH_HEAD
+     * [new branch]      feature2   -> remote-repo/feature2
+   ```
+ Git produces a lot of output when we do this, which we ignore for now.
+The important output is that Git ultimately creates a remote-tracking branch
+`remote-repo/feature2` that points to the `feature2` branch from the remote.
+---
+## Examining  a Remote Branch:
+### 4. Check Out the Branch
+
+- Next we check out this branch:
+   ```bash
+    $ git checkout remote-repo/feature2
+    Note: checking out 'remote-repo/feature2'.
+
+    You are in 'detached HEAD' state. You can look around, make experimental
+    changes and commit them, and you can discard any commits you make in this
+    state without impacting any branches by performing another checkout.
+
+    If you want to create a new branch to retain commits you create, you may
+    do so (now or later) by using -b with the checkout command again. Example:
+
+      git checkout -b <new-branch-name>
+
+    HEAD is now at 8d427c2 Create feature2_file1
+   ```
+- The message about our being in a `detached HEAD` state means that we
+have moved our `HEAD` pointer to a ref that is not in sequence with our
+local history. This is normal and expected. We will follow Git's advice
+shortly.
+
+---
+## About Detached HEAD States
+- The `HEAD` pointer in Git determines your current working revision
+as well as the files that Git puts into the project's working directory.
+
+- Normally, when checking out a proper branch name, Git automatically moves the
+`HEAD` pointer along for each new commit.
+
+- In certain situations, Git will not do this, such as when you move HEAD
+to a commit not pointed to by a branch. If you make changes and commit them,
+these changes will not belong to any branch! This is why it warns you about
+the peril of being in this state.
+
+---
+## Examining  a Remote Branch:
+### 5. Create a Local Tracking Branch for the Upstream Feature Branch
+- Since `HEAD` is pointing to  the `remote-repo/feature2` ref, we can create a
+new local branch from that ref using the suggestion in the output:
+  ```bash
+    $ git checkout -b feature2 remote-repo/feature2
+     Switched to a new branch 'feature2'
+  ```
+- This creates a new local branch named `feature2` and updates HEAD to point to
+the latest remote content, allowing us to continue development on it from this point.
+
+- Checking out a local branch from a remote-tracking branch automatically
+creates what is called a __tracking branch__, and the branch that it tracks is
+called an __upstream branch__.
+
+- Tracking branches are local branches that have a direct relationship to a
+remote branch. If you are on a tracking branch and type `git pull`, Git
+automatically knows which server to fetch from and branch to merge into.
+
+- A command equivalent to the above uses the `--track` option:
+   ```bash
+    git checkout --track remote-repo/feature2
+   ```
+---
+## Examining  a Remote Branch:
+### 6. Summary
+
+- The preceding example demonstrated that if all we want to do is examine and
+work on a separate feature branch from a remote repository, it is enough to
+fetch the remote branch, check it out, and set up a local tracking branch for it.
+Git will update the local state and there is no need to do a merge.
+
+- This is an alternative workflow:
+ ```bash
+   $ git checkout -b feature2
+   Switched to a new branch 'feature2'
+   $ git fetch remote-repo feature2
+    remote: Enumerating objects: 27, done.
+    remote: Counting objects: 100% (27/27), done.
+    remote: Compressing objects: 100% (14/14), done.
+    remote: Total 27 (delta 7), reused 17 (delta 4), pack-reused 0
+    Unpacking objects: 100% (27/27), done.
+    From https://github.com/stewartweiss/git-exercise-04
+     * branch            feature2   -> FETCH_HEAD
+     * [new branch]      feature2   -> remote-repo/feature2
+   $ git merge remote-repo/feature2
+ ```
+ that uses an explicit merge, but it does not set the local `feature2` branch
+to track the remote.
+
+
+---
+
+## Another Workflow: Synchronizing `origin` With  `git fetch`
+
+- The workflow that we present in the next few slides shows the typical workflow
+for synchronizing the local repository with the central repository's master
+branch.
+
+- The first step is to fetch the most recent changes from the remote, which
+we assume is `origin`:
+ ```bash
+   $ git fetch origin
+    remote: Enumerating objects: 27, done.
+    remote: Counting objects: 100% (27/27), done.
+    remote: Compressing objects: 100% (14/14), done.
+    remote: Total 27 (delta 7), reused 17 (delta 4), pack-reused 0
+    Unpacking objects: 100% (27/27), done.
+    From https://github.com/stewartweiss/git-exercise-04
+     * [new branch]      exploratory -> origin/exploratory
+     * [new branch]      feature2    -> origin/feature2
+     * [new branch]      master      -> origin/master
+ ```
+- We ignore the two feature branches and concentrate on updating our master
+branch. Remember that `fetch` has not changed the state of our working directory.
+---
+## Another Workflow: Synchronizing `origin` With  `git fetch`
+
+- Let us assume that our local `master` branch has a few commits already, as
+the `git log` command can show us:
+ ```bash
+   $ git log --oneline
+    002fcbb (HEAD -> master) added file2
+    caee355 added file1
+    063e5e2 added README.md
+ ```
+- Before we incorporate the upstream into our local repository, we want to
+see what commits have been added to the upstream master, that are not part of our
+local `master`. We can run a `git log` using `master..origin/master` as a
+__range filter__:
+ ```bash
+   $ git log --oneline master..origin/master
+    715082d (origin/master, origin/exploratory) Create ghfile2
+    14d5dca Create ghfile1
+    f2c9a98 Modified file3
+    dea2ea4 Modified file2
+    37d5642 added file3
+ ```
+
+- We see that there are several commits that we can download, with their
+commit messages explaining them.
+---
+## Another Workflow: Synchronizing `origin` With  `git fetch`
+
+- If we want all of the changes, we can run a `git merge`
+(or even a `git rebase`):
+ ```bash
+   $ git merge origin/master
+    Updating 002fcbb..715082d
+    Fast-forward
+     file2   | 2 +-
+     file3   | 1 +
+     ghfile1 | 1 +
+     ghfile2 | 1 +
+     4 files changed, 4 insertions(+), 1 deletion(-)
+     create mode 100644 file3
+     create mode 100644 ghfile1
+     create mode 100644 ghfile2
+ ```
+- We are done.
+
+---
+## Summary
+- `git fetch` is a primary command used to download contents from a remote
+repository. It is used in conjunction with `git remote`, `git branch`,
+`git checkout`, and `git merge` to update a local repository to the
+state of a remote.
+
+- The `git fetch` command is a critical piece of collaborative Git work
+flows. It has similar behavior to `git pull` but it can be considered a
+safer method of updating the local from a remote because it gives you a chance
+to review what will be done before actually doing it.
+
+---
+    </textarea>
+
+<!-- these scripts are used for redering the above as markdown -->
+     <script src="js/remark.js" type="text/javascript">
+    </script>
+    <script src="js/remark_conf.js" type="text/javascript">
+    </script>
+
+<!-- the following scripts allow Latex-like formatting -->
+    <script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX", "output/HTML-CSS"],
+         tex2jax: {
+           inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+           displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+           processEscapes: true
+         },
+         "HTML-CSS": { availableFonts: ["TeX"] }
+       });
+    </script>
+
+
+  </body>
+</html>
