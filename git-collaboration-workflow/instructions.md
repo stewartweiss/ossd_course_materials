@@ -103,9 +103,10 @@ will show "`Branch: master`".
 above labeled  [__Creating a file on GitHub__ ] twice. Name your two files
 `option1` and `option2`.
 
-    > The remote repository (on GitHub) now looks like the image below:
+    > _The remote repository (on GitHub) now looks like the image below:_
 
     <center>
+    
     ![History of Repository](./img/structure-of-repo-on-github.png)
     <br>
     Image based on [Git Fetch](https://www.atlassian.com/git/tutorials/syncing/git-fetch)
@@ -151,7 +152,8 @@ the third and so on, and type `done` on the last line:
            git commit . -m "added feature1_${i}"
         done
     ```
- The result of this will be that you created three new files named `feature1_3`,
+    
+    The result of this will be that you created three new files named `feature1_3`,
 `feature1_4`, and `feature1_5`, with three new commits.
 
     > _Your `feature1` branch is now several commits ahead of the upstream
