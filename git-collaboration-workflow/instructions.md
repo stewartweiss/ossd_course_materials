@@ -111,7 +111,7 @@ above labeled  [__Creating a file on GitHub__ ] twice. Name your two files
     <br>
     Image based on [Git Fetch](https://www.atlassian.com/git/tutorials/syncing/git-fetch)
     under a [Attribution 2.5 Australia (CC BY 2.5 AU)](https://creativecommons.org/licenses/by/2.5/au/) license.
-    <br>
+    </center>
     <left>
 
     > _You will now return to your local machine to use Git to do some work,
@@ -152,7 +152,6 @@ the third and so on, and type `done` on the last line:
            git commit . -m "added feature1_${i}"
         done
     ```
-    
     The result of this will be that you created three new files named `feature1_3`,
 `feature1_4`, and `feature1_5`, with three new commits.
 
