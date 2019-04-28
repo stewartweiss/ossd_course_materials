@@ -38,7 +38,8 @@ the `Gnome` GUI client. In the command-line, type
     ```bash
      $ gitg &
     ```
- This starts it up and puts it in the background so that you can continue to
+    
+    This starts it up and puts it in the background so that you can continue to
 use the terminal. You can ignore the various warnings that it might display as
 long as the window pops up and has meaningful content. (Or you can be a good
 citizen and report the issue to the community.)
