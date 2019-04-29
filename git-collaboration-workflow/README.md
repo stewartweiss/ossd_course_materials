@@ -29,11 +29,11 @@ use some other source code hosting server, just replace references to GitHub by 
 server throughout.
 
 3. Though not a strict requirement, you will get much more benefit out of this
-activity if you have installed a Git viewer of some kind. Several of these
+activity if you have installed a graphical Git viewer of some kind. Several of these
 viewers are actually graphical front-ends to Git, but I discourage you from
 using them for this purpose. The purpose of using a viewer while doing this
-activity is to see visually how graph representation of the repository's history
-changes as a result of various Git commands. It is not to replace using the
+activity is to see visually how the graph representation of the repository's history
+changes as a result of various Git commands. It is _not_ to replace using the
 command-line!
 
    One choice is __`Qgit`__ and the other is __`gitg`__. I prefer `gitg`.
@@ -43,11 +43,20 @@ For other Linux systems, do a browser search and find the repositories for your 
 [https://wiki.gnome.org/Apps/Gitg](https://wiki.gnome.org/Apps/Gitg)
  and `Qgit` has a repository on GitHub: [Qgit](https://github.com/tibirna/qgit).
 
-4. If you use `gitg`, you might need to open up your Preferences menu item
+   If you use `gitg`, you might need to open up your Preferences menu item
 and in the second tab, make sure that the "`Show all branches`" box is selected
 and that "`Show history in topological order`" is selected. You might aLso need to
 use the "Reload" item after you make changes - it does not seem to reload
 automatically all of the time.
+
+   If you cannot install such a viewer, the fall-back is to open another terminal
+window, navigate to the repository directory, and use
+
+    ```bash
+       git log --oneline --graph --all
+    ```
+
+    which shows both branches and all commits.
 
 5. These instructions assume you are working in a terminal window, naturally.
 

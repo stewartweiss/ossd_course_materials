@@ -357,7 +357,7 @@ been pushed public, or it will appear that your project history disappeared.
 ## Interactive Rebasing
 
 - To begin an interactive
-rebasing session, pass the `i` option to `git rebase` command:
+rebasing session, pass the `-i` option to `git rebase` command:
     ```bash
      git checkout feature
      git rebase -i master
@@ -382,7 +382,8 @@ look like whatever you want.
 ## Interactive Rebasing Example
 
 - In this example, if the 2nd commit fixes a small problem in the 1st commit,
-you can condense them into a single commit with the `fixup` command:
+you can condense them into a single commit with the `fixup` command. Using the
+text editor, replace the word `pick` with the word `fixup`:
    ```bash
      pick 33d5b7a Message for commit #1
      fixup 9480b3d Message for commit #2
@@ -411,17 +412,86 @@ branch, you pull the new commits down into your local copy of `master`.
 - Previously we saw that you could do a merge to accomplish the last step.
 
 - But as you saw before, rebasing your feature onto the updated `master` makes
-your history linear and cleaner. So in this scenario you would do the following:
-   ```bash
-    git checkout master
-    git fetch upstream/master
-    git merge upstream/master
-    git checkout feature
-    git rebase master
-   ```
+your history linear and cleaner. Therefore, in the next slide we describe the
+steps to use `rebase` instead.
+
+---
+## Rebasing in the Workflow
+
+- The first step is to update your local `master` branch. Git's responses will
+of course depend on what files are present in the remote. This is just an example
+with a random repository:
+
+    ```bash
+      $ git checkout master
+      Switched to branch 'master'
+      $ git fetch upstream master
+      remote: Enumerating objects: 7, done.
+      remote: Counting objects: 100% (7/7), done.
+      remote: Compressing objects: 100% (4/4), done.
+      remote: Total 6 (delta 2), reused 0 (delta 0), pack-reused 0
+      Unpacking objects: 100% (6/6), done.
+      $ git merge upstream/master
+      Updating dd4fbe0..17bf6db
+      Fast-forward
+      gh_file1 | 1 +
+      gh_file2 | 1 +
+      2 files changed, 2 insertions(+)
+      create mode 100644 gh_file1
+      create mode 100644 gh_file2
+    ```
+---
+## Rebasing in the Workflow
+
+- The next step is simply to rebase the feature branch onto the just-updated
+`master` branch. In this case there are conflicts, which must be fixed during
+the rebase:
+
+    ```bash
+      $ git checkout feature
+      Switched to branch 'feature'
+      $ git rebase master
+      First, rewinding head to replay your work on top of it...
+      Applying: added feature1_1
+      Applying: changed file1
+      Using index info to reconstruct a base tree...
+      M	file1
+      Falling back to patching base and 3-way merge...
+      Auto-merging file1
+      CONFLICT (content): Merge conflict in file1
+      error: Failed to merge in the changes.
+      Patch failed at 0003 changed file1
+      Use 'git am --show-current-patch' to see the failed patch
+
+      Resolve all conflicts manually, mark them as resolved with
+      "git add/rm <conflicted_files>", then run "git rebase --continue".
+      You can instead skip this commit: run "git rebase --skip".
+      To abort and get back to the state before "git rebase", run "git rebase --abort".
+    ```
+- We open the `vi` editor and fix `file1` as needed, run
+
+    ```bash
+      $ git add file1
+      $ git rebase --continue
+    ```
+
 
 
 ---
+
+## Summary
+
+- These are the important things to know to start rebasing your branches.
+
+   - If you want a clean, linear history that is free of unnecessary merge commits,
+use `git rebase` instead of `git merge` when integrating changes from another branch.
+
+   - On the other hand, if you want to preserve the complete history of your
+project and avoid the risk of re-writing public commits,
+use `git merge`.
+
+- Either option is perfectly valid,
+but at least now you have the option of leveraging the benefits of `git rebase`.
 
     </textarea>
 
