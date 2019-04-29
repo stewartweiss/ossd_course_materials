@@ -206,11 +206,12 @@ This is a perfect chance to practice rebasing._
     > _Conceptually, your feature branch and the master branch look like
 the figure below._
 
-    <center>
-    ![History of Repository](./img/forked-commit-history.png)
-    <br>
-
-    > _We will rebase the feature onto the updated master branch._
+   <center>
+    
+   ![History of Repository](./img/forked-commit-history.png)
+   <br>
+   </center>
+   > _We will rebase the feature onto the updated master branch._
 
 21. Enter the following commands
 
@@ -234,9 +235,10 @@ because that implies that your `feature1` is merged into the project._
     > _The history now looks like this:_
 
     <center>
+    
     ![History of Repository](./img/rebase-onto-feature.png)
     <br>
-
+    </center>
      > _Suppose now that the team member who was responsible for developing
 `feature2` contacts everyone and says that the version of `feature2` on the
 server is final and can be merged into the `master` branch. She asks you if you
