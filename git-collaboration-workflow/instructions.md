@@ -7,7 +7,7 @@ script:
     ```bash
       create_demo_repo.sh  <repo_name>
     ```
-    
+
     This creates a repository in the current working directory with whatever name
 you choose as its only argument,  with a forked history and two branches,
 one named `master` and one named  `feature1`.
@@ -38,7 +38,7 @@ the `Gnome` GUI client. In the command-line, type
     ```bash
      $ gitg &
     ```
-    
+
     This starts it up and puts it in the background so that you can continue to
 use the terminal. You can ignore the various warnings that it might display as
 long as the window pops up and has meaningful content. (Or you can be a good
@@ -61,13 +61,15 @@ repository files automatically.
 your local  `master` branch will be "behind" the `origin/master`
 __remote branch__. To do this, you will create two files on GitHub, put
 some text into them and commit them. This will create two new commit objects
-in the `master` branch of the __upstream__ associated with your local `demo`
-repository._
+in the `master` branch of the __upstream__ ( i.e., what you call `origin`)
+associated with your local `demo`repository._
 
 6. [__Creating a file on GitHub__ ]
 On GitHub click the __Create new file__ button, and name the file `gh_file1`.
 In the editor window, type anything you want for the contents of the file,
-scroll to the bottom of the screen, and click the green __Commit new file__ button.
+scroll to the bottom of the screen, type a short Commit message in the text
+box below the __Commit changes__ text,
+and click the green __Commit new file__ button.
 
 7. Repeat the previous instruction but name this second file `gh_file2`.
     > _Now you will create a new feature branch on GitHub, not on your
@@ -106,13 +108,16 @@ above labeled  [__Creating a file on GitHub__ ] twice. Name your two files
     > _The remote repository (on GitHub) now looks like the image below:_
 
     <center>
-    
+
     ![History of Repository](./img/structure-of-repo-on-github.png)
     <br>
     Image based on [Git Fetch](https://www.atlassian.com/git/tutorials/syncing/git-fetch)
     under a [Attribution 2.5 Australia (CC BY 2.5 AU)](https://creativecommons.org/licenses/by/2.5/au/) license.
     </center>
-    
+
+
+    > You can see a similar graph by navigating on GitHub to the __Insights -->
+Network__ tab.
 
     > _You will now return to your local machine to use Git to do some work,
 but before you do so,  make sure that you have read the slides
@@ -139,11 +144,11 @@ is your task in this quest._
       $ git checkout feature1
       Switched to branch 'feature1'
     ```
-    
+
 16. Write the following `bash` for-loop in your shell. After you type the first
 line, `bash` will prompt you for the remaining lines with your
 __secondary prompt string__, the `PS2` shell variable. It is usually "`-->`".
-So when you see it, just type the second line, followed by the newline, 
+So when you see it, just type the second line, followed by the newline,
 then the third and so on, and type `done` on the last line:
 
     ```bash
@@ -207,11 +212,11 @@ This is a perfect chance to practice rebasing._
 the figure below._
 
     <center>
-    
+
      ![History of Repository](./img/forked-commit-history.png)
-    
+
     </center>
-   
+
     > _We will rebase the feature onto the updated master branch._
 
 21. Enter the following commands
@@ -236,11 +241,11 @@ because that implies that your `feature1` is merged into the project._
     > _The history now looks like this:_
 
     <center>
-    
+
     ![History of Repository](./img/rebase-onto-feature.png)
-     
+
     </center>
-    
+
      > _Suppose now that the team member who was responsible for developing
 `feature2` contacts everyone and says that the version of `feature2` on the
 server is final and can be merged into the `master` branch. She asks you if you
@@ -279,10 +284,10 @@ commit as the `feature2` and it will also update the working directory._
        create mode 100644 feature2_file1
        create mode 100644 feature2_file2
     ```
-   
+
     > _Notice that Git added the two missing files. If youo look at `gitg` again (you
 might have to refresh it or close and reopen it) you will see that `feature2`,
-`origin/feature2`, and `master` all point to the same commit. However, `feature`
+`origin/feature2`, and `master` all point to the same commit. However, `feature1`
 is no longer ahead of `master`; they are not on the same linear path. In other
 words, `feature1` no longer is based on the most recent version of the `master`
 branch._
@@ -352,8 +357,8 @@ You might have to refresh or reload the window.
 commits and missing a few branch names:_
 
     <center>
-    
+
     ![History of Repository](./img/final_state.png)
-    
+
     </center>
 

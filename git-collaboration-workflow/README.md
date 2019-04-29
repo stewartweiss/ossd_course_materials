@@ -43,7 +43,13 @@ For other Linux systems, do a browser search and find the repositories for your 
 [https://wiki.gnome.org/Apps/Gitg](https://wiki.gnome.org/Apps/Gitg)
  and `Qgit` has a repository on GitHub: [Qgit](https://github.com/tibirna/qgit).
 
-4. These instructions assume you are working in a terminal window, naturally.
+4. If you use `gitg`, you might need to open up your Preferences menu item
+and in the second tab, make sure that the "`Show all branches`" box is selected
+and that "`Show history in topological order`" is selected. You might aLso need to
+use the "Reload" item after you make changes - it does not seem to reload
+automatically all of the time.
+
+5. These instructions assume you are working in a terminal window, naturally.
 
 
 ### Setup

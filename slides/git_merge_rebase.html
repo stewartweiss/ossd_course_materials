@@ -233,24 +233,25 @@ conflict is manually resolved.
 - Suppose that the following sequence of commands creates and updates a repository.
 
    ```bash
-     $ git init
-     $ echo "My first file" > file1 ; git add file1
-     $ git commit . -m "Added file1 to empty repository"
-     $ echo "My second file" > file2 ; git add file2
-     $ git commit . -m "Added file2 "
-     $ echo "My third file" > file3 ; git add file3
-     $ git commit . -m "Added file3 "
-     $ git checkout -b branch1
-     $ echo "Better version of file3" >|  file3 ; git add file3
-     $ git commit . -m "Updated file3"
-     $ echo "New file in branch1" > file4 ; git add file4
-     $ git commit . -m "Added file4 to this branch"
-     $ git checkout master
-     $ echo "new file in master" > file5 ; git add .
-     $ git commit . -m "Added file5 to master"
+      $ git init
+      $ echo "My first file" > file1 ; git add file1
+      $ git commit . -m "Added file1 to empty repository"
+      $ echo "My second file" > file2 ; git add file2
+      $ git commit . -m "Added file2 "
+      $ git checkout -b branch1
+      $ echo "My third file" >|  file3 ; git add file3
+      $ git commit . -m "Updated file3"
+      $ echo "New file in branch1" > file4 ; git add file4
+      $ git commit . -m "Added file4 to this branch"
+      $ git checkout master
+      $ echo "new file in master" > file5 ; git add .
+      $ git commit . -m "Added file5 to master"
+      $ echo "My latest third file" >|  file3 ; git add file3
+      $ git commit . -m "Updated file3"
    ```
  At this point `file3` has a different first line in   `master`
-from what it does in `branch1`. The history is forked because
+from that of the `file3` in `branch1`. This particular difference
+cannot be resolved by Git's merge strategies.  The history is forked because
 the `master` branch was updated with a new commit after the commit
 where `branch1` was branched off of `master`.
 
@@ -267,8 +268,6 @@ The session lloks like this:
     $ git checkout branch1
     $ git rebase master
     First, rewinding head to replay your work on top of it...
-    Applying: added file1
-    Applying: added file2
     Applying: updated file3
     Using index info to reconstruct a base tree...
     M	file3
