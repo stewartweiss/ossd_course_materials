@@ -312,9 +312,9 @@ to inspect it. That is the last step of this activity._
 
 25. Enter the following command:
 
-   ```bash
+    ```bash
       $ git fetch origin exploratory
-   ```
+    ```
     > _Since we are only inspecting and have no plans to integrate this work
 into our repository, it is enough to just check out the new remote branch._
 
@@ -341,10 +341,10 @@ advice and create a new tracking branch, as follows._
 
 27. Enter this (very last, really) command:
 
-   ```bash
+    ```bash
       $ git checkout  -b exploratory
       Switched to a new branch 'exploratory'
-   ```
+    ```
     Look at the `gitg` window and you will see the final state of the repository.
 You might have to refresh or reload the window.
 
@@ -354,5 +354,6 @@ commits and missing a few branch names:_
     <center>
     
     ![History of Repository](./img/final_state.png)
+    
     </center>
 
