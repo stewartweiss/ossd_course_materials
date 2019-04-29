@@ -206,13 +206,13 @@ This is a perfect chance to practice rebasing._
     > _Conceptually, your feature branch and the master branch look like
 the figure below._
 
-   <center>
+    <center>
     
      ![History of Repository](./img/forked-commit-history.png)
     
-   </center>
+    </center>
    
-   > _We will rebase the feature onto the updated master branch._
+    > _We will rebase the feature onto the updated master branch._
 
 21. Enter the following commands
 
@@ -240,6 +240,7 @@ because that implies that your `feature1` is merged into the project._
     ![History of Repository](./img/rebase-onto-feature.png)
      
     </center>
+    
      > _Suppose now that the team member who was responsible for developing
 `feature2` contacts everyone and says that the version of `feature2` on the
 server is final and can be merged into the `master` branch. She asks you if you
@@ -254,7 +255,7 @@ We will use the `fetch/merge` approach to do this. We fetch the `feature2` branc
     ```bash
       $ git fetch origin feature2
     ```
- Take a look at the `gitg` window and notice that the history is now forked
+    Take a look at the `gitg` window and notice that the history is now forked
 again, and that the `feature2` branch tip is two commits ahead of `master`.
 Also, look at your workign directory using `ls` and notice that the files
 added in `feature2` are not there. All we did was fetch, not pull.
@@ -291,7 +292,7 @@ on `master`._
 
 24. Enter the following commands:
 
-   ```bash
+    ```bash
       $ git checkout feature1
       Switched to branch 'feature1'
       $ git rebase master
@@ -301,8 +302,8 @@ on `master`._
       Applying: feature1_3
       Applying: feature1_4
       Applying: feature1_5
-   ```
- Look at the working directory and look at the `gitg` window. The history is
+    ```
+    Look at the working directory and look at the `gitg` window. The history is
 once again linear and all files are present.
 
     > _Everything has been done. You can push these change back up to the server
@@ -319,7 +320,7 @@ into our repository, it is enough to just check out the new remote branch._
 
 26. Enter the command:
 
-   ```bash
+    ```bash
       $ git checkout origin/exploratory
       Note: checking out 'origin/exploratory'.
 
@@ -333,8 +334,8 @@ into our repository, it is enough to just check out the new remote branch._
         git checkout -b <new-branch-name>
 
       HEAD is now at ec96968 Create option2
-   ```
- By doing this we can examine the files, which _are_ in our working directory.
+    ```
+    By doing this we can examine the files, which _are_ in our working directory.
 If we want to do any work and be able to make commits, we need to follow Git's
 advice and create a new tracking branch, as follows._
 
@@ -344,7 +345,7 @@ advice and create a new tracking branch, as follows._
       $ git checkout  -b exploratory
       Switched to a new branch 'exploratory'
    ```
- Look at the `gitg` window and you will see the final state of the repository.
+    Look at the `gitg` window and you will see the final state of the repository.
 You might have to refresh or reload the window.
 
     > _The history now looks approximately like this, ignoring the number of
