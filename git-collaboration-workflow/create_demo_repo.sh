@@ -10,19 +10,19 @@
 # modified by tinkering with the parameters of this script.
 #
 # MIT License
-# 
+#
 # Copyright (c) 2019 Stewart Weiss
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,10 +31,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Define various branch lengths 
+# Define various branch lengths
 master_branch_length=3
 feature1_branch_length=2
-let startval=$master_branch_length-1
+
 
 # Check usage
 if [ $# -lt 1 ] ; then
@@ -58,7 +58,7 @@ echo "fetch, merge, rebase, and a few other git commands." >> README.md
 git add README.md ; git commit . -m "added README.md"
 
 
-# Create some files and commits in current branch
+# Create some files and commits in master branch
 for i in `seq 1 ${master_branch_length}` ; do
     echo "line_${i}" > file${i} ; git add file${i} ; git commit . -m "added file${i}"
 done
@@ -67,14 +67,17 @@ done
 git checkout -b feature1
 
 for i in `seq 1 ${feature1_branch_length}` ; do
-    echo "line_${i}" > feature1_${i} ; git add feature1_${i} ; git commit . -m "added feature1_${i}"
+    echo "${i}: line_${i}" > feature1_${i} ; git add feature1_${i} ; git commit . -m "added feature1_${i}"
 done
+
+# Make a change to   file1 in feature1 branch
+echo "1:  line_1" >| file1 ; git add file1 ; git commit . -m "changed file1"
 
 # Add two more commits to master so that the history is forked
 # In particular we will force a conflict when we try to merge or rebase
 git checkout master
-for i in `seq ${startval} ${master_branch_length}` ; do
-    echo "modified_line_${i}" >| file${i} ; git add file${i} ; git commit . -m "Modified file${i}"
+for i in `seq 1 ${master_branch_length}` ; do
+    echo "${i}: modified line_${i}" >| file${i} ; git add file${i} ; git commit . -m "Modified file${i}"
 done
 
 
