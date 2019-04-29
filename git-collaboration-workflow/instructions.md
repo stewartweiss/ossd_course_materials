@@ -112,7 +112,7 @@ above labeled  [__Creating a file on GitHub__ ] twice. Name your two files
     Image based on [Git Fetch](https://www.atlassian.com/git/tutorials/syncing/git-fetch)
     under a [Attribution 2.5 Australia (CC BY 2.5 AU)](https://creativecommons.org/licenses/by/2.5/au/) license.
     </center>
-    <left>
+    
 
     > _You will now return to your local machine to use Git to do some work,
 but before you do so,  make sure that you have read the slides
@@ -139,21 +139,22 @@ is your task in this quest._
       $ git checkout feature1
       Switched to branch 'feature1'
     ```
-16.  Write the following `bash` for-loop in your shell. After you type the first
+    
+16. Write the following `bash` for-loop in your shell. After you type the first
 line, `bash` will prompt you for the remaining lines with your
 __secondary prompt string__, the `PS2` shell variable. It is usually "`-->`".
-So when you see it, just type the second line, followed by the newline, then
-the third and so on, and type `done` on the last line:
+So when you see it, just type the second line, followed by the newline, 
+then the third and so on, and type `done` on the last line:
 
-   ```bash
+    ```bash
       $ for i in 3 4 5 ; do
            echo "feature1_${i}" > feature1_${i}
            git add feature1_${i}
            git commit . -m "added feature1_${i}"
         done
-   ```
+    ```
 
-   The result of this will be that you created three new files named `feature1_3`,
+ The result of this will be that you created three new files named `feature1_3`,
 `feature1_4`, and `feature1_5`, with three new commits.
 
    > _Your `feature1` branch is now several commits ahead of the upstream
