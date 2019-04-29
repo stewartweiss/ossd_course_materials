@@ -208,9 +208,10 @@ the figure below._
 
    <center>
     
-   ![History of Repository](./img/forked-commit-history.png)
-   <br>
+     ![History of Repository](./img/forked-commit-history.png)
+    
    </center>
+   
    > _We will rebase the feature onto the updated master branch._
 
 21. Enter the following commands
@@ -265,7 +266,7 @@ commit as the `feature2` and it will also update the working directory._
 
 23. We switch to the `master` branch to do a fast-forward merge:
 
-    ```bash
+   ```bash
       $ git checkout master
       Switched to branch 'master'
       $ git merge feature2
@@ -276,7 +277,7 @@ commit as the `feature2` and it will also update the working directory._
        2 files changed, 2 insertions(+)
        create mode 100644 feature2_file1
        create mode 100644 feature2_file2
-    ```
+   ```
     > _Notice that Git added the two missing files. If youo look at `gitg` again (you
 might have to refresh it or close and reopen it) you will see that `feature2`,
 `origin/feature2`, and `master` all point to the same commit. However, `feature`
@@ -289,7 +290,7 @@ on `master`._
 
 24. Enter the following commands:
 
-    ```bash
+   ``bash
       $ git checkout feature1
       Switched to branch 'feature1'
       $ git rebase master
@@ -299,7 +300,7 @@ on `master`._
       Applying: feature1_3
       Applying: feature1_4
       Applying: feature1_5
-    ```
+   ```
  Look at the working directory and look at the `gitg` window. The history is
 once again linear and all files are present.
 
@@ -309,9 +310,9 @@ to inspect it. That is the last step of this activity._
 
 25. Enter the following command:
 
-    ```bash
+   ```bash
       $ git fetch origin exploratory
-    ```
+   ```
     > _Since we are only inspecting and have no plans to integrate this work
 into our repository, it is enough to just check out the new remote branch._
 
@@ -350,5 +351,5 @@ commits and missing a few branch names:_
 
     <center>
     ![History of Repository](./img/final_state.png)
-    <br>
+    </center>
 
