@@ -196,7 +196,7 @@ with `origin/master`. Enter:
        create mode 100644 gh_file1
        create mode 100644 gh_file2
     ```
-20. Now look at your working directry with `ls` and see that the files are
+20. Now look at your working directory with `ls` and see that the files are
 there! The `merge` updates the working directory.
 
     > _Now it is time to integrate your work on the `feature1` branch with
@@ -257,7 +257,7 @@ We will use the `fetch/merge` approach to do this. We fetch the `feature2` branc
     ```
     Take a look at the `gitg` window and notice that the history is now forked
 again, and that the `feature2` branch tip is two commits ahead of `master`.
-Also, look at your workign directory using `ls` and notice that the files
+Also, look at your working directory using `ls` and notice that the files
 added in `feature2` are not there. All we did was fetch, not pull.
 
     > _Because `master` is an ancestor of `feature2` and not on a different part
@@ -267,7 +267,7 @@ commit as the `feature2` and it will also update the working directory._
 
 23. We switch to the `master` branch to do a fast-forward merge:
 
-   ```bash
+    ```bash
       $ git checkout master
       Switched to branch 'master'
       $ git merge feature2
@@ -278,7 +278,7 @@ commit as the `feature2` and it will also update the working directory._
        2 files changed, 2 insertions(+)
        create mode 100644 feature2_file1
        create mode 100644 feature2_file2
-   ```
+    ```
    
     > _Notice that Git added the two missing files. If youo look at `gitg` again (you
 might have to refresh it or close and reopen it) you will see that `feature2`,
