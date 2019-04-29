@@ -171,11 +171,11 @@ by your local `master` branch, and the one that is known locally as
 `origin/master`. Enter the following two commands. You will see messages from
 Git that we will ignore for now.
 
-   ```bash
+    ```bash
       $ git checkout master
       Switched to branch 'master'
       $ git fetch origin master
-   ```
+    ```
 
 18. Open the `gitg` window again and notice that it has added the commits
 from the `master` branch on GitHub. But if you look at your working directory
