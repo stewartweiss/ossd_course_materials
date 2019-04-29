@@ -153,16 +153,16 @@ then the third and so on, and type `done` on the last line:
            git commit . -m "added feature1_${i}"
         done
     ```
-   The result of this will be that you created three new files named `feature1_3`,
+    The result of this will be that you created three new files named `feature1_3`,
 `feature1_4`, and `feature1_5`, with three new commits.
 
-   > _Your `feature1` branch is now several commits ahead of the upstream
+    > _Your `feature1` branch is now several commits ahead of the upstream
 version of it on the GitHub server. You did some work and now you are confident
 that you want to incorporate it into the project._
 
-   > _Take a look at `gitg`'s window to see how it changed._
+    > _Take a look at `gitg`'s window to see how it changed._
 
-   > _You want to  pull down the work that has been done from the upstream, but
+    > _You want to  pull down the work that has been done from the upstream, but
 you will not use the `git pull` command to do this, as was explained in the
 tutorial. You will use `git fetch`._
 
