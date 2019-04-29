@@ -238,7 +238,7 @@ because that implies that your `feature1` is merged into the project._
     <center>
     
     ![History of Repository](./img/rebase-onto-feature.png)
-    <br>
+     
     </center>
      > _Suppose now that the team member who was responsible for developing
 `feature2` contacts everyone and says that the version of `feature2` on the
@@ -278,6 +278,7 @@ commit as the `feature2` and it will also update the working directory._
        create mode 100644 feature2_file1
        create mode 100644 feature2_file2
    ```
+   
     > _Notice that Git added the two missing files. If youo look at `gitg` again (you
 might have to refresh it or close and reopen it) you will see that `feature2`,
 `origin/feature2`, and `master` all point to the same commit. However, `feature`
@@ -290,7 +291,7 @@ on `master`._
 
 24. Enter the following commands:
 
-   ``bash
+   ```bash
       $ git checkout feature1
       Switched to branch 'feature1'
       $ git rebase master
@@ -318,7 +319,7 @@ into our repository, it is enough to just check out the new remote branch._
 
 26. Enter the command:
 
-    ```bash
+   ```bash
       $ git checkout origin/exploratory
       Note: checking out 'origin/exploratory'.
 
@@ -332,17 +333,17 @@ into our repository, it is enough to just check out the new remote branch._
         git checkout -b <new-branch-name>
 
       HEAD is now at ec96968 Create option2
-    ```
+   ```
  By doing this we can examine the files, which _are_ in our working directory.
 If we want to do any work and be able to make commits, we need to follow Git's
 advice and create a new tracking branch, as follows._
 
 27. Enter this (very last, really) command:
 
-    ```bash
+   ```bash
       $ git checkout  -b exploratory
       Switched to a new branch 'exploratory'
-    ```
+   ```
  Look at the `gitg` window and you will see the final state of the repository.
 You might have to refresh or reload the window.
 
@@ -350,6 +351,7 @@ You might have to refresh or reload the window.
 commits and missing a few branch names:_
 
     <center>
+    
     ![History of Repository](./img/final_state.png)
     </center>
 
