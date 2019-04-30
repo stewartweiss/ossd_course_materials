@@ -105,7 +105,7 @@ will show "`Branch: master`".
 above labeled  [__Creating a file on GitHub__ ] twice. Name your two files
 `option1` and `option2`.
 
-    > _The remote repository (on GitHub) now looks like the image below:_
+    > _The remote repository (on GitHub) now looks roughly like the image below:_
 
     <center>
 
@@ -155,14 +155,13 @@ then the third and so on, and type `done` on the last line:
       $ for i in 3 4 5 ; do
            echo "feature1_${i}" > feature1_${i}
            git add feature1_${i}
-           git commit . -m "added feature1_${i}"
         done
+        git commit . -m "added 3 new features to feature1"
     ```
     The result of this will be that you created three new files named `feature1_3`,
-`feature1_4`, and `feature1_5`, with three new commits.
+`feature1_4`, and `feature1_5`, and a single new commit.
 
-    > _Your `feature1` branch is now several commits ahead of the upstream
-version of it on the GitHub server. You did some work and now you are confident
+    > _Your `feature1` branch is now ready. You did some work and now you are confident
 that you want to incorporate it into the project._
 
     > _Take a look at `gitg`'s window to see how it changed._
@@ -179,8 +178,11 @@ Git that we will ignore for now.
     ```bash
       $ git checkout master
       Switched to branch 'master'
+      Your branch is up to date with 'origin/master'
       $ git fetch origin master
     ```
+    Although Git reports that `master` is up to date with `origin/master`, it
+stated this only because it did not yet "know" that `origin/master` has advanced.
 
 18. Open the `gitg` window again and notice that it has added the commits
 from the `master` branch on GitHub. But if you look at your working directory
@@ -217,7 +219,11 @@ the figure below._
 
     </center>
 
-    > _We will rebase the feature onto the updated master branch._
+    > _We will rebase the feature onto the updated master branch. What you will
+discover though is that we have a __rebase conflict__, which is essentially like
+a merge conflict. Git cannot automatically resolve the different versions of
+`file1` in the `master` and `feature1` branches. This will be good practice in
+manually fixing a rebase conflict._
 
 21. Enter the following commands
 
@@ -228,12 +234,47 @@ the figure below._
         First, rewinding head to replay your work on top of it...
         Applying: added feature1_1
         Applying: added feature1_2
-        Applying: feature1_3
-        Applying: feature1_4
-        Applying: feature1_5
+        Applying: changed file1
+        Using index info to reconstruct a base tree...
+        M	file1
+        Falling back to patching base and 3-way merge...
+        Auto-merging file1
+        CONFLICT (content): Merge conflict in file1
+        error: Failed to merge in the changes.
+        Patch failed at 0003 changed file1
+        Use 'git am --show-current-patch' to see the failed patch
+
+        Resolve all conflicts manually, mark them as resolved with
+        "git add/rm <conflicted_files>", then run "git rebase --continue".
+        You can instead skip this commit: run "git rebase --skip".
+        To abort and get back to the state before "git rebase", run "git rebase --abort".
+    ```
+22. We have to fix this. First, open up `file1 in whatever editor you feel
+confident using. You will see
+
+    ```bash
+      <<<<<<< HEAD
+      1: modified line_1
+      =======
+      1:  line_1
+      >>>>>>> changed file1
+    ```
+    Replace these lines with a single line such as
+
+    ```bash
+      1: line 1 is fixed
     ```
 
-    > _The history that you see in `gitg` is now linear; your `feature` branch is
+    and save the file. Then run
+
+    ```bash
+      $ git add file1
+      $ git rebase --continue
+    ```
+
+    and the problem should be solved.
+
+    > _The history that you should see in `gitg` is now linear; your `feature1` branch is
 just a chain,  a few commits ahead of the `master` (and `origin/master`)
 branch. Although you might be tempted, you are not supposed to move `master`,
 because that implies that your `feature1` is merged into the project._
@@ -254,12 +295,20 @@ local machine, of fetching the `feature2` branch and integrating it into your
 local copy, after which it can be pushed back up to the upstream. You agree
 to do this._
 
-22. Your next step is to fetch that upstream `feature2` branch and merge it in.
+23. Your next step is to fetch that upstream `feature2` branch and merge it in.
 We will use the `fetch/merge` approach to do this. We fetch the `feature2` branch:
 
     ```bash
       $ git fetch origin feature2
     ```
+24. You do not have a local `feature2` branch to track this remote branch, so the
+next step is to create it. The following instruction creates a branch named
+`feature2` that tracks `origin/feature2` and then makes it the currrent branch:
+
+    ```bash
+      $ git checkout -b feature2 origin/feature2
+    ```
+
     Take a look at the `gitg` window and notice that the history is now forked
 again, and that the `feature2` branch tip is two commits ahead of `master`.
 Also, look at your working directory using `ls` and notice that the files
@@ -270,7 +319,7 @@ of the tree, we can do a __fast-forward merge__ to integrate the feature into th
 master branch. This will move the `master` branch so that it points to the same
 commit as the `feature2` and it will also update the working directory._
 
-23. We switch to the `master` branch to do a fast-forward merge:
+25. We switch to the `master` branch to do a fast-forward merge:
 
     ```bash
       $ git checkout master
@@ -295,7 +344,7 @@ branch._
     > _Our last task should be to fix this. We will rebase our `feature1` branch
 on `master`._
 
-24. Enter the following commands:
+26. Enter the following commands:
 
     ```bash
       $ git checkout feature1
@@ -315,7 +364,7 @@ once again linear and all files are present.
 if you like. If you want, you can fetch the `exploratory` branch if you just want
 to inspect it. That is the last step of this activity._
 
-25. Enter the following command:
+27. Enter the following command:
 
     ```bash
       $ git fetch origin exploratory
@@ -323,7 +372,7 @@ to inspect it. That is the last step of this activity._
     > _Since we are only inspecting and have no plans to integrate this work
 into our repository, it is enough to just check out the new remote branch._
 
-26. Enter the command:
+28. Enter the command:
 
     ```bash
       $ git checkout origin/exploratory
@@ -344,7 +393,7 @@ into our repository, it is enough to just check out the new remote branch._
 If we want to do any work and be able to make commits, we need to follow Git's
 advice and create a new tracking branch, as follows._
 
-27. Enter this (very last, really) command:
+29. Enter this (very last, really) command:
 
     ```bash
       $ git checkout  -b exploratory
