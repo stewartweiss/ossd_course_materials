@@ -1457,7 +1457,27 @@ Some easier ones first
 in a file named `permutation100`.
 
 - This one is a bit harder but fun. There is a command called `cal` that displays
-a calendar in Linux.
+a calendar in Linux:
+    ```bash
+      $ cal
+           April 2019
+      Su Mo Tu We Th Fr Sa
+          1  2  3  4  5  6
+       7  8  9 10 11 12 13
+      14 15 16 17 18 19 20
+      21 22 23 24 25 26 27
+      28 29 30
+    ```
+  Using only `echo` and `paste`, try to display the calendar in a similar format
+for the current month. Hint: if you enclose a sequence of commands in parentheses,
+they are treated as a single command, e.g.:
+  ```bash
+    $ (echo hello; echo goodbye) | wc
+        2       2      14
+    $ echo hello; echo goodbye | wc
+     hello
+        1       1       8
+  ```
 
 
 ---
