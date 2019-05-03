@@ -1448,13 +1448,50 @@ to figure out how to use them.
 ---
 #Useful Links
 
+A list of some relevant links
+
+- [List of Common Linux Commands](https://ss64.com/bash/)
+- [Linux Scripting Tutorial](https://bash.cyberciti.biz/guide/Main_Page)
+- [GNU bash Manual](https://www.gnu.org/software/bash/manual/bash.html)
+- [Introduction to Text Manipulation in Unix](https://developer.ibm.com/articles/au-unixtext/#25.Resources|outline)
 
 ---
 ## Exercises
-Some easier ones first
+Start with some easier ones first. In the exercises, the word _command_ is means
+a structured command - you might need to use pipes or even nested commands.
 
-- Write a script that generates a permutation of the integers from 1 to 100
+- Write a command that generates a permutation of the integers from 1 to 100
 in a file named `permutation100`.
+
+- Write a command that  prints the number of times that the word "lie" occurs in
+the set of all files in the current directory with a .html extension. Make it
+case insensitive.
+
+- The `ps` command displays process status information for a set of processes
+running on the local machine. With the `-ef` flags, `ps` lists the status of
+every process. Look at its output and then write a command that, when given a
+user's name, prints the number of processes currently running on that user's
+behalf. Although the slides so far have not shown the form of a script, you can
+model it from the following:
+    ```bash
+      #!/bin/bash
+      # Print the first command line argument and exit
+      echo $1
+    ```
+  The `$1` is replaced by the word typed after the script's name. For example if
+the above script is in a file named `echo1` then we would see the following:
+    ```
+      $ echo1 hello
+      hello
+    ```
+
+---
+
+## Exercises
+
+- The history command in bash displays the commands you have run recently.
+The file `~/.bash_history` stores by default the last 500 commands.
+Inspect that file and then write a command that displays the ten commands you have used the most recently.
 
 - This one is a bit harder but fun. There is a command called `cal` that displays
 a calendar in Linux:

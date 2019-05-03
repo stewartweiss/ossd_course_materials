@@ -31,10 +31,10 @@ var slideshow = remark.create({
   //},
 
   // Enable or disable counting of incremental slides in the slide counting
-  countIncrementalSlides: true,
-  
+  countIncrementalSlides: false,
+
   //syntax highlighting options:
   //highlightLanguage: 'python',
   highlightLines: true,
   highlightStyle: 'github'
-}); 
+});
